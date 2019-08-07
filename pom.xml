@@ -11,6 +11,7 @@
 
     <modules>
         <module>lohoknang-blog-backend</module>
+        <module>lohoknang-blog-frontend</module>
     </modules>
 
 </project>

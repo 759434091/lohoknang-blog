@@ -124,8 +124,8 @@ public class BlogControlHandler {
                 || !dateStr.matches("\\d{4}-\\d{2}")) {
             return null;
         }
-        Integer year = Integer.valueOf(dateStr.substring(0, 4));
-        Integer month = Integer.valueOf(dateStr.substring(5, 7));
+        int year = Integer.parseInt(dateStr.substring(0, 4));
+        int month = Integer.parseInt(dateStr.substring(5, 7));
         if (month < Month.JANUARY.getValue() || month > Month.DECEMBER.getValue()) {
             return null;
         }
