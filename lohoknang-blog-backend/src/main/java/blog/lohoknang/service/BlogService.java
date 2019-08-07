@@ -49,7 +49,7 @@ public class BlogService {
     public Flux<Blog> getBlogIntroByRaw(@NonNull Integer page) {
         return Mono.just(page)
                 .map(p -> PageRequest.of(p, pageSize))
-                .flatMapMany(blogRepository::findBy);
+                .flatMapMany(blogRepository::findByOrderByCreatedAtDesc);
     }
 
     public Flux<Blog> getBlogIntroByCategory(

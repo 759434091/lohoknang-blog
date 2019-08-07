@@ -26,18 +26,19 @@
         <!--suppress HtmlUnknownAttribute -->
         <ul class="blog-home-infinite-list" v-infinite-scroll="load">
           <li v-for="blog in blogs" :key="blog.id" class="infinite-list-item">
-            <BlogIntro :blog="blog" @intro-click="introClick" />
+            <BlogIntro :blog="blog" />
             <el-divider></el-divider>
           </li>
         </ul>
       </el-main>
-      <el-aside class="blog-home-aside" width="300px"> </el-aside>
+      <el-aside class="blog-home-aside" width="300px"></el-aside>
     </el-container>
   </el-container>
 </template>
 
 <script>
 import BlogIntro from "../components/BlogIntro";
+
 export default {
   name: "Home",
   components: { BlogIntro },
@@ -54,19 +55,19 @@ export default {
     load() {
       this.$http
         .get("/blogs", {
-          type: this.type,
-          value: this.value,
-          page: this.page
+          params: {
+            type: this.type,
+            value: this.value,
+            page: this.page
+          }
         })
         .then(res => {
-          this.blogs.push(res);
+          this.page++;
+          this.blogs.push(...res.data);
         })
         .catch(err => {
           console.error(err);
         });
-    },
-    introClick(id) {
-      console.log(id);
     }
   }
 };

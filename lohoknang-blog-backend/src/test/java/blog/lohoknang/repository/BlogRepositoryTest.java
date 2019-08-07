@@ -45,7 +45,7 @@ public class BlogRepositoryTest extends BlogBackendApplicationTests {
     public void findBy() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         blogRepository
-                .findBy(PageRequest.of(0, 10))
+                .findByOrderByCreatedAtDesc(PageRequest.of(0, 10))
                 .doOnComplete(countDownLatch::countDown)
                 .subscribe(blog -> log.info(JSON.toJSONString(blog)));
 

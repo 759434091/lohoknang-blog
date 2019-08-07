@@ -26,7 +26,7 @@ public interface BlogRepository extends ReactiveMongoRepository<Blog, ObjectId> 
      * @return flux
      */
     @Query(fields = "{ content : 0 }")
-    Flux<Blog> findBy(Pageable pageable);
+    Flux<Blog> findByOrderByCreatedAtDesc(Pageable pageable);
 
     /**
      * findByOrderByCreatedAt

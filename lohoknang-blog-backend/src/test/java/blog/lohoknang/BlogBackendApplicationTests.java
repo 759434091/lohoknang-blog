@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CountDownLatch;
-import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -50,7 +49,7 @@ public class BlogBackendApplicationTests {
                         .category(it[1])
                         .author(it[2])
                         .title(it[3])
-                        .intro(it[5].substring(0, Math.min(50, it[5].length())))
+                        .intro(it[5].substring(0, Math.min(110, it[5].length())))
                         .content(it[5])
                         .videoNum(Integer.parseInt(it[8]))
                         .createdAt(LocalDateTime.from(formatter.parse(it[6])))
