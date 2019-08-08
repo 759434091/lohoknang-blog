@@ -22,12 +22,14 @@
       ></div>
       <div v-html="blogDetail.content"></div>
       <div class="blog-intro-content-footer">
-        <el-row type="flex" justify="end">
-          <el-col :span="2">
-            <el-button type="primary" size="mini" @click="collapse" v-viewport="handlebar"
-              >收起</el-button>
-            <bottom-bar :bar="bar"></bottom-bar>
-          </el-col>
+        <el-row type="flex" justify="end" :class="buttonClass">
+          <el-button
+            type="primary"
+            size="mini"
+            @click="collapse"
+            v-viewport="handlebar"
+            >收起</el-button
+          >
         </el-row>
       </div>
     </div>
@@ -47,10 +49,11 @@ export default {
   props: {
     blog: Object
   },
-  components: {BottomBar},
+  components: { BottomBar },
   data() {
     return {
       blogDetail: null,
+      buttonClass: "",
       bar: {
         show: false
       }
@@ -61,7 +64,6 @@ export default {
       this.$http
         .get(`/blogs/${this.blog.id}`)
         .then(res => {
-          console.log('yyyyy', res);
           this.blogDetail = res.data;
           this.blogDetail.content = marked(
             this.blogDetail.content.replace(/\\n/g, "\n")
@@ -75,20 +77,19 @@ export default {
       this.blogDetail = null;
     },
     handlebar(dataset, flag) {
-      console.log('他在视口中')
-      if(flag) {
-        this.bar.show = false
+      if (!flag) {
+        this.buttonClass = "bottom-bar bottom-bar-flow";
       } else {
-        this.bar.show = true
+        this.buttonClass = "bottom-bar";
       }
-
+      this.bar.show = !flag;
     }
   }
 };
 </script>
-
 <style scoped>
 .blog-intro {
+  width: 640px;
   padding: 15px;
 }
 
@@ -132,5 +133,18 @@ export default {
 
 .blog-intro-content-footer {
   padding: 20px 0 0 0;
+}
+
+.bottom-bar {
+  transition: all 0.3s;
+}
+
+.bottom-bar-flow {
+  transition: all 0.3s;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  bottom: 15px;
+  width: 640px;
 }
 </style>
