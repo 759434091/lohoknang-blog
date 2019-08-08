@@ -24,9 +24,9 @@
       <div class="blog-intro-content-footer">
         <el-row type="flex" justify="end">
           <el-col :span="2">
-            <el-button type="primary" size="mini" @click="collapse"
-              >收起</el-button
-            >
+            <el-button type="primary" size="mini" @click="collapse" v-viewport="handlebar"
+              >收起</el-button>
+            <bottom-bar :bar="bar"></bottom-bar>
           </el-col>
         </el-row>
       </div>
@@ -36,6 +36,7 @@
 
 <script>
 import marked from "marked";
+import BottomBar from "./BottomBar";
 
 marked.setOptions({
   breaks: true
@@ -46,9 +47,13 @@ export default {
   props: {
     blog: Object
   },
+  components: {BottomBar},
   data() {
     return {
-      blogDetail: null
+      blogDetail: null,
+      bar: {
+        show: false
+      }
     };
   },
   methods: {
@@ -56,6 +61,7 @@ export default {
       this.$http
         .get(`/blogs/${this.blog.id}`)
         .then(res => {
+          console.log('yyyyy', res);
           this.blogDetail = res.data;
           this.blogDetail.content = marked(
             this.blogDetail.content.replace(/\\n/g, "\n")
@@ -67,6 +73,15 @@ export default {
     },
     collapse() {
       this.blogDetail = null;
+    },
+    handlebar(dataset, flag) {
+      console.log('他在视口中')
+      if(flag) {
+        this.bar.show = false
+      } else {
+        this.bar.show = true
+      }
+
     }
   }
 };
