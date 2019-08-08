@@ -23,16 +23,13 @@
       <div v-html="blogDetail.content"></div>
       <div class="blog-intro-content-footer">
         <el-row type="flex" justify="end" :class="buttonClass">
-          <el-col :span="2">
-            <el-button
-              type="primary"
-              size="mini"
-              @click="collapse"
-              v-viewport="handlebar"
-              >收起</el-button
-            >
-            <!--<bottom-bar :bar="bar"></bottom-bar>-->
-          </el-col>
+          <el-button
+            type="primary"
+            size="mini"
+            @click="collapse"
+            v-viewport="handlebar"
+            >收起</el-button
+          >
         </el-row>
       </div>
     </div>
@@ -81,18 +78,18 @@ export default {
     },
     handlebar(dataset, flag) {
       if (!flag) {
-        this.buttonClass = "bottom-bar";
+        this.buttonClass = "bottom-bar bottom-bar-flow";
       } else {
-        this.buttonClass = "";
+        this.buttonClass = "bottom-bar";
       }
       this.bar.show = !flag;
     }
   }
 };
 </script>
-
 <style scoped>
 .blog-intro {
+  width: 640px;
   padding: 15px;
 }
 
@@ -139,11 +136,15 @@ export default {
 }
 
 .bottom-bar {
-  display: flex !important;
-  justify-content: flex-end !important;
-  position: fixed !important;
-  bottom: 15px !important;
-  right: 455px !important;
-  width: 100% !important;
+  transition: all 0.3s;
+}
+
+.bottom-bar-flow {
+  transition: all 0.3s;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  bottom: 15px;
+  width: 640px;
 }
 </style>
