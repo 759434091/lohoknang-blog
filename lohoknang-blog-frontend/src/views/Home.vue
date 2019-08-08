@@ -41,7 +41,7 @@ import BlogIntro from "../components/BlogIntro";
 
 export default {
   name: "Home",
-  components: { BlogIntro},
+  components: { BlogIntro },
   data() {
     return {
       activeIndex: "/",
@@ -62,7 +62,6 @@ export default {
           }
         })
         .then(res => {
-          console.log('ddddd',res)
           this.page++;
           this.blogs.push(...res.data);
         })

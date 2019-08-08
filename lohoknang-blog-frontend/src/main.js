@@ -4,8 +4,8 @@ import router from "./router";
 import store from "./store";
 import "./plugins/element";
 import "./plugins/axios";
-import mock from './utils/mock';
-import directive from './utils/directive'
+import "./plugins/inViewport.js";
+import mock from "./utils/mock";
 
 Vue.config.productionTip = false;
 
