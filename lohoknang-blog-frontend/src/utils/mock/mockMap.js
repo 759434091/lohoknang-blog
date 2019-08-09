@@ -157,6 +157,19 @@ export default {
       videoNum: 4,
       createdAt: "2019-04-18T10:55:01",
       updatedAt: "2019-05-24T15:57:22"
-    }
+    },
+  },
+  "/categories": {
+    enable: true,
+    data: ["java","web","前端","Linux","node"]
+  },
+  "/dates": {
+    enable: true,
+    data: ["2019-04","2019-03","2019-02","2018-11","2018-10"]
+  },
+  "/updateds": {
+    enable: true,
+    data: [{"id":"5d4a74a98bd8238fbd8b59ed","category":null,"author":null,"title":"Reactive Rpc4J","intro":null,"videoNum":null,"createdAt":"2019-04-18T10:55:01","updatedAt":null},{"id":"5d4a74a98bd8238fbd8b59ec","category":null,"author":null,"title":"函数式编程 & 响应式编程","intro":null,"videoNum":null,"createdAt":"2019-04-18T10:54:10","updatedAt":null},{"id":"5d4a74a98bd8238fbd8b59eb","category":null,"author":null,"title":"Spring Boot + WebFlux + ReactiveData 组合实践","intro":null,"videoNum":null,"createdAt":"2019-03-29T09:18:26","updatedAt":null},{"id":"5d4a74a98bd8238fbd8b59ea","category":null,"author":null,"title":"基于 UNIX Socket 实现 RestTemplate","intro":null,"videoNum":null,"createdAt":"2019-02-05T15:03:43","updatedAt":null},{"id":"5d4a74a98bd8238fbd8b59e9","category":null,"author":null,"title":"抓取虎牙直播弹幕流（WireShark&前端源码）","intro":null,"videoNum":null,"createdAt":"2018-11-11T16:42:34","updatedAt":null}]
   }
 };
+
