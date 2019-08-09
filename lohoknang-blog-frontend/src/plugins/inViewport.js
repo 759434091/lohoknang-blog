@@ -59,25 +59,19 @@ Vue.directive("viewport", {
     } else {
       throw new Error("v-viewport directive need a function");
     }
+
     let ifStill = Symbol.for("still");
-    const throttle_fn = _.throttle(
-      () => {
-        // setTimeout(function() {
-        if (inPostViewport(el) && !el.dataset[ifStill]) {
-          fn(el.dataset, true);
-          el.dataset[ifStill] = true;
-        } else if (inPostViewport(el) && el.dataset[ifStill]) {
-        } else {
-          el.dataset[ifStill] = false;
-          fn(el.dataset, false);
-        }
-        // }, 0)
-      },
-      0,
-      {
-        leading: false
+    const PostViewportFunc = () => {
+      if (inPostViewport(el) && !el.dataset[ifStill]) {
+        fn(el.dataset, true);
+        el.dataset[ifStill] = true;
+      } else if (inPostViewport(el) && el.dataset[ifStill]) {
+      } else {
+        el.dataset[ifStill] = false;
+        fn(el.dataset, false);
       }
-    );
+    };
+
     const obCallback = () => {
       console.log("mo观察");
       if (inPostViewport(el)) {
@@ -86,13 +80,14 @@ Vue.directive("viewport", {
         fn(el.dataset, false);
       }
     };
-    throttle_fn();
+
+    PostViewportFunc();
     const obType = el.dataset["obtype"] || "static";
     el._viewport = {
-      callback: throttle_fn
+      callback: PostViewportFunc
     };
     if (obType === "static") {
-      window.addEventListener("scroll", throttle_fn, true);
+      window.addEventListener("scroll", PostViewportFunc, true);
     } else if (obType === "dynamic") {
       setOb(el, obCallback);
     } else {
