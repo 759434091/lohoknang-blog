@@ -31,7 +31,38 @@
           </li>
         </ul>
       </el-main>
-      <el-aside class="blog-home-aside" width="300px"></el-aside>
+      <el-aside class="blog-home-aside" width="300px">
+        <div>
+          <div class="blog-home-aside-title">
+            Categories
+          </div>
+          <ul class="blog-home-aside-list">
+            <li v-for="(it, idx) in categories" :key="idx">
+              <el-link class="blog-home-aside-link" v-text="it"></el-link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div class="blog-home-aside-title">
+            Dates
+          </div>
+          <ul class="blog-home-aside-list">
+            <li v-for="(it, idx) in dates" :key="idx">
+              <el-link class="blog-home-aside-link" v-text="it"></el-link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div class="blog-home-aside-title">
+            Updateds
+          </div>
+          <ul class="blog-home-aside-list">
+            <li v-for="(it, idx) in updateds" :key="idx">
+              <el-link class="blog-home-aside-link" v-text="it.title"></el-link>
+            </li>
+          </ul>
+        </div>
+      </el-aside>
     </el-container>
   </el-container>
 </template>
@@ -45,11 +76,55 @@ export default {
   data() {
     return {
       activeIndex: "/",
+      top: 5,
       page: 0,
       type: "raw",
       value: "",
-      blogs: []
+      blogs: [],
+      categories: [],
+      dates: [],
+      updateds: []
     };
+  },
+  created() {
+    this.$http
+      .get("/categories", {
+        params: {
+          top: this.top
+        }
+      })
+      .then(res => {
+        this.categories = res.data;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
+    this.$http
+      .get("/dates", {
+        params: {
+          top: this.top
+        }
+      })
+      .then(res => {
+        this.dates = res.data;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
+    this.$http
+      .get("/updateds", {
+        params: {
+          top: this.top
+        }
+      })
+      .then(res => {
+        this.updateds = res.data;
+      })
+      .catch(err => {
+        console.error(err);
+      });
   },
   methods: {
     load() {
@@ -86,8 +161,27 @@ export default {
   padding: 10px 100px;
   height: calc(100vh - 80px);
 }
+.blog-home-aside {
+}
 
-.blog-home-infinite-list {
+.blog-home-infinite-list,
+.blog-home-aside-list {
   list-style: none;
+}
+
+.blog-home-aside-title {
+  padding-left: 40px;
+  font-size: 20px;
+  line-height: 1.5;
+  color: #606266;
+}
+
+.blog-home-aside-link {
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

@@ -12,7 +12,8 @@ import {
   Row,
   Col,
   InfiniteScroll,
-  Divider
+  Divider,
+  Link
 } from "element-ui";
 
 Vue.use(Button);
@@ -28,3 +29,4 @@ Vue.use(Row);
 Vue.use(Col);
 Vue.use(InfiniteScroll);
 Vue.use(Divider);
+Vue.use(Link);
