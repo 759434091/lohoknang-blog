@@ -78,11 +78,6 @@ export default {
       this.blogDetail = null;
     },
     handlebar(dataset, flag) {
-      // if (!flag) {
-      //   this.buttonClass = "bottom-bar bottom-bar-flow";
-      // } else {
-      //   this.buttonClass = "bottom-bar";
-      // }
       this.bar.show = !flag;
     }
   }
@@ -134,18 +129,5 @@ export default {
 
 .blog-intro-content-footer {
   padding: 20px 0 0 0;
-}
-
-.bottom-bar {
-  transition: all 0.3s;
-}
-
-.bottom-bar-flow {
-  transition: all 0.3s;
-  display: flex;
-  justify-content: flex-end;
-  position: fixed;
-  bottom: 15px;
-  width: 640px;
 }
 </style>
