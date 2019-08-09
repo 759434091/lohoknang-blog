@@ -28,11 +28,11 @@ export default {
 
 <style scoped>
 .bottom-bar {
-  display: flex !important;
-  justify-content: flex-end !important;
-  position: fixed !important;
-  bottom: 15px !important;
-  right: 455px !important;
-  width: 100% !important;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  bottom: 15px;
+  width: 640px;
+;
 }
 </style>

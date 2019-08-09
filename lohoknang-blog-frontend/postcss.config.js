@@ -1,5 +1,15 @@
 module.exports = {
   plugins: {
-    autoprefixer: {}
+    autoprefixer: {},
+    "postcss-px-to-viewport": {
+      viewportWidth: 1366,
+      viewportHeight: 768,
+      unitPrecision: 3,
+      viewportUnit: 'vw',
+      selectorBlackList: ['.ignore', '.hairlines'],
+      minPixelValue: 1,
+      mediaQuery: false
+    },
+    "postcss-viewport-units": {},
   }
 };

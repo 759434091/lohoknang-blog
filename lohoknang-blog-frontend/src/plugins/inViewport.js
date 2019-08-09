@@ -26,9 +26,9 @@ const inPostViewport = el => {
   let rect = el.getBoundingClientRect();
   return (
     rect.left >= 0 &&
-    rect.bottom <=
+    rect.top <=
       (window.innerHeight ||
-        document.documentElement.clientHeight) /*or $(window).height() */ &&
+        document.documentElement.clientHeight)+rect.height /*or $(window).height() */ &&
     rect.right <=
       (window.innerWidth ||
         document.documentElement.clientWidth) /*or $(window).width() */

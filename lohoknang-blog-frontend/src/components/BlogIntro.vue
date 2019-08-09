@@ -31,6 +31,7 @@
             >收起</el-button
           >
         </el-row>
+        <BottomBar :bar="bar"></BottomBar>
       </div>
     </div>
   </div>
@@ -77,11 +78,11 @@ export default {
       this.blogDetail = null;
     },
     handlebar(dataset, flag) {
-      if (!flag) {
-        this.buttonClass = "bottom-bar bottom-bar-flow";
-      } else {
-        this.buttonClass = "bottom-bar";
-      }
+      // if (!flag) {
+      //   this.buttonClass = "bottom-bar bottom-bar-flow";
+      // } else {
+      //   this.buttonClass = "bottom-bar";
+      // }
       this.bar.show = !flag;
     }
   }
