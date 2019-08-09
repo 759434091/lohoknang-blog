@@ -179,9 +179,5 @@ export default {
 .blog-home-aside-link {
   font-size: 16px;
   line-height: 1.5;
-  max-width: 300px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 </style>
