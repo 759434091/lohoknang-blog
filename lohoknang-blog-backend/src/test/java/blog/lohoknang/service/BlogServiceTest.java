@@ -40,8 +40,8 @@ public class BlogServiceTest extends BlogBackendApplicationTests {
     public void getTopCategories() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         blogService.getTopCategories(5)
-                .doOnComplete(countDownLatch::countDown)
-                .subscribe(log::info);
+                .doFinally(t -> countDownLatch.countDown())
+                .subscribe(it -> log.info("{}", it));
         countDownLatch.await();
     }
 
@@ -49,8 +49,8 @@ public class BlogServiceTest extends BlogBackendApplicationTests {
     public void getTopDates() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         blogService.getTopDates(5)
-                .doOnComplete(countDownLatch::countDown)
-                .subscribe(log::info);
+                .doFinally(t -> countDownLatch.countDown())
+                .subscribe(it -> log.info("{}", it));
         countDownLatch.await();
     }
 

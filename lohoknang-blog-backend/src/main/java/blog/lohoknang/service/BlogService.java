@@ -1,6 +1,7 @@
 package blog.lohoknang.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -71,7 +72,7 @@ public class BlogService {
                                 pageRequest));
     }
 
-    public Flux<String> getTopCategories(Integer top) {
+    public Mono<List<String>> getTopCategories(Integer top) {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.group("category").count().as("count"),
                 Aggregation.sort(Sort.Direction.DESC, "count"),
@@ -80,10 +81,11 @@ public class BlogService {
 
         return reactiveMongoTemplate
                 .aggregate(aggregation, "blog", Document.class)
-                .map(document -> document.getString("_id"));
+                .map(document -> document.getString("_id"))
+                .collectList();
     }
 
-    public Flux<String> getTopDates(Integer top) {
+    public Mono<List<String>> getTopDates(Integer top) {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation
                         .project("createdAt")
@@ -96,7 +98,8 @@ public class BlogService {
 
         return reactiveMongoTemplate
                 .aggregate(aggregation, "blog", Document.class)
-                .map(document -> document.getString("_id"));
+                .map(document -> document.getString("_id"))
+                .collectList();
     }
 
     @SuppressWarnings("SpellCheckingInspection")

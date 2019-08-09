@@ -3,12 +3,14 @@ package blog.lohoknang.controller;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
-import java.util.Objects;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import javax.annotation.Resource;
 
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -96,7 +98,10 @@ public class BlogControlHandler {
                 .map(this::getTopParam)
                 .orElseThrow(() -> new InvalidParameterException("Invalid top"));
 
-        return ServerResponse.ok().body(blogService.getTopCategories(top), String.class);
+        return ServerResponse
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(blogService.getTopCategories(top), ParameterizedTypeReference.forType(List.class));
     }
 
     public Mono<ServerResponse> getTopDates(ServerRequest serverRequest) {
@@ -104,7 +109,7 @@ public class BlogControlHandler {
                 .map(this::getTopParam)
                 .orElseThrow(() -> new InvalidParameterException("Invalid top"));
 
-        return ServerResponse.ok().body(blogService.getTopDates(top), String.class);
+        return ServerResponse.ok().body(blogService.getTopDates(top), ParameterizedTypeReference.forType(List.class));
     }
 
     @SuppressWarnings("SpellCheckingInspection")
