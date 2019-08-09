@@ -73,7 +73,7 @@ Vue.directive("viewport", {
         }
         // }, 0)
       },
-      300,
+      0,
       {
         leading: false
       }
