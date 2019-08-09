@@ -6,7 +6,6 @@
  *dataset中的obtype为dynamic适合动态的元素, 元素有变动即进行一次可视判断
  */
 import Vue from "vue";
-import _ from "lodash";
 
 const inViewport = el => {
   let rect = el.getBoundingClientRect();
