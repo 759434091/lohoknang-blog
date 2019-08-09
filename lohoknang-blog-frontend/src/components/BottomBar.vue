@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide">
+  <transition name="fade">
     <div class="bottom-bar" v-if="bar.show">
       <el-row>
         <el-col>
@@ -39,5 +39,14 @@ export default {
   bottom: 15px;
   width: 640px;
   height: 40px;
+}
+
+.fade-enter-active {
+  transition: all 0.2s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
