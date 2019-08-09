@@ -34,31 +34,40 @@
       <el-aside class="blog-home-aside" width="300px">
         <div>
           <div class="blog-home-aside-title">
-            Categories
+            Category
           </div>
           <ul class="blog-home-aside-list">
             <li v-for="(it, idx) in categories" :key="idx">
-              <el-link class="blog-home-aside-link" v-text="it"></el-link>
+              <el-link
+                      class="blog-home-aside-link"
+                      icon="el-icon-collection-tag"
+              >
+                <span v-text="it.toUpperCase()"></span>
+              </el-link>
             </li>
           </ul>
         </div>
         <div>
           <div class="blog-home-aside-title">
-            Dates
+            Date
           </div>
           <ul class="blog-home-aside-list">
             <li v-for="(it, idx) in dates" :key="idx">
-              <el-link class="blog-home-aside-link" v-text="it"></el-link>
+              <el-link class="blog-home-aside-link" icon="el-icon-date">
+                <span v-text="getDateText(it)"></span>
+              </el-link>
             </li>
           </ul>
         </div>
         <div>
           <div class="blog-home-aside-title">
-            Updateds
+            Update
           </div>
           <ul class="blog-home-aside-list">
             <li v-for="(it, idx) in updateds" :key="idx">
-              <el-link class="blog-home-aside-link" v-text="it.title"></el-link>
+              <el-link class="blog-home-aside-link" icon="el-icon-news">
+                <span v-text="it.title"></span>
+              </el-link>
             </li>
           </ul>
         </div>
@@ -68,9 +77,9 @@
 </template>
 
 <script>
-import BlogIntro from "../components/BlogIntro";
+  import BlogIntro from "../components/BlogIntro";
 
-export default {
+  export default {
   name: "Home",
   components: { BlogIntro },
   data() {
@@ -143,6 +152,10 @@ export default {
         .catch(err => {
           console.error(err);
         });
+    },
+    getDateText(date) {
+      const arr = date.split("-");
+      return `${arr[0]}年 - ${arr[1]}月`;
     }
   }
 };
@@ -162,6 +175,7 @@ export default {
   height: calc(100vh - 80px);
 }
 .blog-home-aside {
+  padding-top: 30px;
 }
 
 .blog-home-infinite-list,
@@ -178,8 +192,9 @@ export default {
 
 .blog-home-aside-link {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.7;
   max-width: 200px;
+  font-weight: normal;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -1,19 +1,20 @@
 import Vue from "vue";
 import {
+  Aside,
   Button,
+  Col,
+  Container,
+  Divider,
+  Header,
+  Icon,
+  InfiniteScroll,
+  Link,
+  Main,
   Menu,
-  Submenu,
   MenuItem,
   MenuItemGroup,
-  Container,
-  Header,
-  Main,
-  Aside,
   Row,
-  Col,
-  InfiniteScroll,
-  Divider,
-  Link
+  Submenu
 } from "element-ui";
 
 Vue.use(Button);
@@ -30,3 +31,4 @@ Vue.use(Col);
 Vue.use(InfiniteScroll);
 Vue.use(Divider);
 Vue.use(Link);
+Vue.use(Icon);
