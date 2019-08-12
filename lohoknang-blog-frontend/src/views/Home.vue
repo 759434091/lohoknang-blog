@@ -24,54 +24,56 @@
     <el-container class="blog-home-container">
       <el-main class="blog-home-main">
         <!--suppress HtmlUnknownAttribute -->
-        <ul class="blog-home-infinite-list" v-infinite-scroll="load">
-          <li v-for="blog in blogs" :key="blog.id" class="infinite-list-item">
-            <BlogIntro :blog="blog" />
-            <el-divider></el-divider>
-          </li>
-        </ul>
+        <div>
+          <ul class="blog-home-infinite-list" v-infinite-scroll="load">
+            <li v-for="blog in blogs" :key="blog.id" class="infinite-list-item">
+              <BlogIntro :blog="blog" />
+              <el-divider></el-divider>
+            </li>
+          </ul>
+        </div>
+        <div class="blog-home-aside" width="300px">
+          <div>
+            <div class="blog-home-aside-title">
+              Category
+            </div>
+            <ul class="blog-home-aside-list">
+              <li v-for="(it, idx) in categories" :key="idx">
+                <el-link
+                        class="blog-home-aside-link"
+                        icon="el-icon-collection-tag"
+                >
+                  <span v-text="it.toUpperCase()"></span>
+                </el-link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="blog-home-aside-title">
+              Date
+            </div>
+            <ul class="blog-home-aside-list">
+              <li v-for="(it, idx) in dates" :key="idx">
+                <el-link class="blog-home-aside-link" icon="el-icon-date">
+                  <span v-text="getDateText(it)"></span>
+                </el-link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="blog-home-aside-title">
+              Update
+            </div>
+            <ul class="blog-home-aside-list">
+              <li v-for="(it, idx) in updateds" :key="idx">
+                <el-link class="blog-home-aside-link" icon="el-icon-news">
+                  <span v-text="it.title"></span>
+                </el-link>
+              </li>
+            </ul>
+          </div>
+        </div>
       </el-main>
-      <el-aside class="blog-home-aside" width="300px">
-        <div>
-          <div class="blog-home-aside-title">
-            Category
-          </div>
-          <ul class="blog-home-aside-list">
-            <li v-for="(it, idx) in categories" :key="idx">
-              <el-link
-                      class="blog-home-aside-link"
-                      icon="el-icon-collection-tag"
-              >
-                <span v-text="it.toUpperCase()"></span>
-              </el-link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <div class="blog-home-aside-title">
-            Date
-          </div>
-          <ul class="blog-home-aside-list">
-            <li v-for="(it, idx) in dates" :key="idx">
-              <el-link class="blog-home-aside-link" icon="el-icon-date">
-                <span v-text="getDateText(it)"></span>
-              </el-link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <div class="blog-home-aside-title">
-            Update
-          </div>
-          <ul class="blog-home-aside-list">
-            <li v-for="(it, idx) in updateds" :key="idx">
-              <el-link class="blog-home-aside-link" icon="el-icon-news">
-                <span v-text="it.title"></span>
-              </el-link>
-            </li>
-          </ul>
-        </div>
-      </el-aside>
     </el-container>
   </el-container>
 </template>
@@ -171,13 +173,20 @@
 }
 
 .blog-home-container {
-  padding: 10px 100px;
+  padding: 10px 0 10px 100px;
   height: calc(100vh - 80px);
+  width: 100%;
 }
+.blog-home-main {
+  display: flex;
+}
+
 .blog-home-aside {
   padding-top: 30px;
 }
-
+.blog-home-infinite-list {
+  display: inline-block;
+}
 .blog-home-infinite-list,
 .blog-home-aside-list {
   list-style: none;

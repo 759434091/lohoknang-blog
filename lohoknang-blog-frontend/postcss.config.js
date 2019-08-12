@@ -10,6 +10,8 @@ module.exports = {
       minPixelValue: 1,
       mediaQuery: false
     },
-    "postcss-viewport-units": {}
+    "postcss-viewport-units": {
+      filterRule: rule => rule.nodes.findIndex(i => i.prop === 'content') === -1
+    }
   }
 };
