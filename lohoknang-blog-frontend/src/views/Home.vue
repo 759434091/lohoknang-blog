@@ -1,5 +1,5 @@
 <template>
-  <el-container class="blog-home-container">
+  <el-container class="blog-home-container" >
     <el-header>
       <el-row :gutter="10">
         <el-col :span="3">
@@ -24,7 +24,7 @@
     <el-container class="blog-home-main-container">
       <!--suppress HtmlUnknownAttribute -->
       <el-main class="blog-home-main">
-        <ul class="blog-home-infinite-list" v-infinite-scroll="load">
+        <ul class="blog-home-infinite-list" v-fresh-scroll="load" >
           <li :key="blog.id" class="infinite-list-item" v-for="blog in blogs">
             <BlogIntro :blog="blog" />
             <el-divider></el-divider>
