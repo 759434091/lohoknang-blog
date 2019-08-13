@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container class="blog-home-container">
     <el-header>
       <el-row :gutter="10">
         <el-col :span="3">
@@ -21,59 +21,57 @@
         </el-col>
       </el-row>
     </el-header>
-    <el-container class="blog-home-container">
+    <el-container class="blog-home-main-container">
+      <!--suppress HtmlUnknownAttribute -->
       <el-main class="blog-home-main">
-        <!--suppress HtmlUnknownAttribute -->
+        <ul class="blog-home-infinite-list" v-infinite-scroll="load">
+          <li :key="blog.id" class="infinite-list-item" v-for="blog in blogs">
+            <BlogIntro :blog="blog"/>
+            <el-divider></el-divider>
+          </li>
+        </ul>
+      </el-main>
+      <el-aside class="blog-home-aside" width="300px">
         <div>
-          <ul class="blog-home-infinite-list" v-infinite-scroll="load">
-            <li v-for="blog in blogs" :key="blog.id" class="infinite-list-item">
-              <BlogIntro :blog="blog" />
-              <el-divider></el-divider>
+          <div class="blog-home-aside-title">
+            Category
+          </div>
+          <ul class="blog-home-aside-list">
+            <li :key="idx" v-for="(it, idx) in categories">
+              <el-link
+                      class="blog-home-aside-link"
+                      icon="el-icon-collection-tag"
+              >
+                <span v-text="it.toUpperCase()"></span>
+              </el-link>
             </li>
           </ul>
         </div>
-        <div class="blog-home-aside" width="300px">
-          <div>
-            <div class="blog-home-aside-title">
-              Category
-            </div>
-            <ul class="blog-home-aside-list">
-              <li v-for="(it, idx) in categories" :key="idx">
-                <el-link
-                        class="blog-home-aside-link"
-                        icon="el-icon-collection-tag"
-                >
-                  <span v-text="it.toUpperCase()"></span>
-                </el-link>
-              </li>
-            </ul>
+        <div>
+          <div class="blog-home-aside-title">
+            Date
           </div>
-          <div>
-            <div class="blog-home-aside-title">
-              Date
-            </div>
-            <ul class="blog-home-aside-list">
-              <li v-for="(it, idx) in dates" :key="idx">
-                <el-link class="blog-home-aside-link" icon="el-icon-date">
-                  <span v-text="getDateText(it)"></span>
-                </el-link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div class="blog-home-aside-title">
-              Update
-            </div>
-            <ul class="blog-home-aside-list">
-              <li v-for="(it, idx) in updateds" :key="idx">
-                <el-link class="blog-home-aside-link" icon="el-icon-news">
-                  <span v-text="it.title"></span>
-                </el-link>
-              </li>
-            </ul>
-          </div>
+          <ul class="blog-home-aside-list">
+            <li :key="idx" v-for="(it, idx) in dates">
+              <el-link class="blog-home-aside-link" icon="el-icon-date">
+                <span v-text="getDateText(it)"></span>
+              </el-link>
+            </li>
+          </ul>
         </div>
-      </el-main>
+        <div>
+          <div class="blog-home-aside-title">
+            Update
+          </div>
+          <ul class="blog-home-aside-list">
+            <li :key="idx" v-for="(it, idx) in updateds">
+              <el-link class="blog-home-aside-link" icon="el-icon-news">
+                <span v-text="it.title"></span>
+              </el-link>
+            </li>
+          </ul>
+        </div>
+      </el-aside>
     </el-container>
   </el-container>
 </template>
@@ -173,20 +171,26 @@
 }
 
 .blog-home-container {
-  padding: 10px 0 10px 100px;
-  height: calc(100vh - 80px);
-  width: 100%;
 }
-.blog-home-main {
+
+.blog-home-main-container {
   display: flex;
+  width: 1024px;
+  margin: 0 auto;
+}
+
+.blog-home-main {
+  padding: 0;
 }
 
 .blog-home-aside {
   padding-top: 30px;
 }
+
 .blog-home-infinite-list {
-  display: inline-block;
+  padding: 0;
 }
+
 .blog-home-infinite-list,
 .blog-home-aside-list {
   list-style: none;
