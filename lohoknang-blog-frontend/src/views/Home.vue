@@ -77,9 +77,9 @@
 </template>
 
 <script>
-  import BlogIntro from "../components/BlogIntro";
+import BlogIntro from "../components/BlogIntro";
 
-  export default {
+export default {
   name: "Home",
   components: { BlogIntro },
   data() {
