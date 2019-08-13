@@ -26,7 +26,7 @@
       <el-main class="blog-home-main">
         <ul class="blog-home-infinite-list" v-infinite-scroll="load">
           <li :key="blog.id" class="infinite-list-item" v-for="blog in blogs">
-            <BlogIntro :blog="blog"/>
+            <BlogIntro :blog="blog" />
             <el-divider></el-divider>
           </li>
         </ul>
@@ -39,8 +39,8 @@
           <ul class="blog-home-aside-list">
             <li :key="idx" v-for="(it, idx) in categories">
               <el-link
-                      class="blog-home-aside-link"
-                      icon="el-icon-collection-tag"
+                class="blog-home-aside-link"
+                icon="el-icon-collection-tag"
               >
                 <span v-text="it.toUpperCase()"></span>
               </el-link>
