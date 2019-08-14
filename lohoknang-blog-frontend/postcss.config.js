@@ -1,3 +1,4 @@
+// noinspection JSUnusedGlobalSymbols,SpellCheckingInspection
 module.exports = {
   plugins: {
     autoprefixer: {},
@@ -11,7 +12,7 @@ module.exports = {
       mediaQuery: false
     },
     "postcss-viewport-units": {
-      filterRule: rule => rule.nodes.findIndex(i => i.prop === 'content') === -1
+      filterRule: rule => rule.nodes.findIndex(i => i.prop === "content") === -1
     }
   }
 };

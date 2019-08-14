@@ -7,22 +7,18 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
-  "dependencies": {
-    "axios": "^0.19.0",
-    "core-js": "^2.6.5",
-    "element-ui": "^2.4.5",
-    "marked": "^0.7.0",
-    "vue": "^2.6.10",
-    "vue-router": "^3.0.3",
-    "vuex": "^3.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@gfx/zopfli": "^1.0.14",
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-service": "^3.10.0",
     "@vue/eslint-config-prettier": "^5.0.0",
+    "axios": "latest",
     "babel-eslint": "^10.0.1",
     "babel-plugin-component": "^1.1.1",
+    "brotli-webpack-plugin": "^1.1.0",
+    "compression-webpack-plugin": "^3.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0",
@@ -31,7 +27,9 @@
     "postcss-px-to-viewport": "^1.1.1",
     "postcss-viewport-units": "^0.1.6",
     "prettier": "^1.18.2",
+    "vue": "latest",
     "vue-cli-plugin-element": "^1.0.1",
+    "vue-router": "latest",
     "vue-template-compiler": "^2.6.10"
   }
 }

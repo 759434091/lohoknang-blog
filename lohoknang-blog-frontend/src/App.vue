@@ -15,13 +15,13 @@
               class="app-menu"
               mode="horizontal"
             >
-              <el-menu-item index="/">
+              <el-menu-item class="app-menu-item" index="/">
                 <a href="/#/" class="app-menu-link">POST</a>
               </el-menu-item>
-              <el-menu-item index="/support">
+              <el-menu-item class="app-menu-item" index="/support">
                 <a href="/#/support" class="app-menu-link">SUPPORT</a>
               </el-menu-item>
-              <el-menu-item index="/about">
+              <el-menu-item class="app-menu-item" index="/about">
                 <a href="/#/about" class="app-menu-link">ABOUT</a>
               </el-menu-item>
             </el-menu>
@@ -56,12 +56,16 @@ export default {
 }
 
 .app-brand {
+  height: 60px;
   font-size: 20px;
   line-height: 60px;
   color: #606266;
   text-align: center;
-  height: 60px;
   border-bottom: solid 1px #e6e6e6;
+}
+
+.app-menu-item {
+  height: 60px !important;
 }
 
 .app-brand-link,

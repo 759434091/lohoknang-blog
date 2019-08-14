@@ -72,7 +72,7 @@ export default {
           );
         })
         .catch(err => {
-          console.error(err);
+          this.$message.error(err);
         });
     },
     collapse() {

@@ -58,7 +58,6 @@ Vue.directive("viewport", {
     };
 
     const obCallback = () => {
-      console.log("mo观察");
       if (inPostViewport(el)) {
         fn(el.dataset, true);
       } else {
@@ -80,9 +79,7 @@ Vue.directive("viewport", {
     }
   },
   unbind(el) {
-    const { callback, ob } = el._viewport;
-    // const obType = el.dataset['obtype'] || 'static'
-    console.log("指令解绑l ", ob, "dddd");
+    const { callback } = el._viewport;
     window.removeEventListener("scroll", callback, true);
     Reflect.deleteProperty(el, "_viewport");
   }

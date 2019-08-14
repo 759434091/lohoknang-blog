@@ -91,7 +91,7 @@ export default {
         this.categories = res.data;
       })
       .catch(err => {
-        console.error(err);
+        this.$message.error(err);
       });
 
     this.$http
@@ -104,7 +104,7 @@ export default {
         this.dates = res.data;
       })
       .catch(err => {
-        console.error(err);
+        this.$message.error(err);
       });
 
     this.$http
@@ -117,7 +117,7 @@ export default {
         this.updateds = res.data;
       })
       .catch(err => {
-        console.error(err);
+        this.$message.error(err);
       });
   },
   methods: {
@@ -146,7 +146,7 @@ export default {
           this.blogs.push(...res.data);
         })
         .catch(err => {
-          console.error(err);
+          this.$message.error(err);
         });
     },
     getDateText(date) {
