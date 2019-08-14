@@ -142,6 +142,9 @@ export default {
       this.$http
         .get("/blogs", { params: this.getParams() })
         .then(res => {
+          if (res.data.length === 0) {
+            return;
+          }
           this.page++;
           this.blogs.push(...res.data);
         })

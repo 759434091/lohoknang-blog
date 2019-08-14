@@ -68,7 +68,7 @@ export default {
         .then(res => {
           this.blogDetail = res.data;
           this.blogDetail.content = marked(
-            this.blogDetail.content.replace(/\\n/g, "\n")
+            this.blogDetail.content.replace(/\\r|\\n/g, "\n")
           );
         })
         .catch(err => {
