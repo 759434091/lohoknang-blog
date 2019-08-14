@@ -31,7 +31,7 @@
             >收起</el-button
           >
         </el-row>
-        <BottomBar :bar="bar"></BottomBar>
+        <BottomBar :bar="bar" @collapse="collapse"></BottomBar>
       </div>
     </div>
   </div>
@@ -56,7 +56,8 @@ export default {
       blogDetail: null,
       buttonClass: "",
       bar: {
-        show: false
+        show: false,
+        id: this.blog.id
       }
     };
   },

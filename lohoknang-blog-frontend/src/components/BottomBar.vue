@@ -2,7 +2,7 @@
   <transition name="fade">
     <div class="bar" v-if="bar.show">
       <div class="bottom-bar">
-        <el-row>
+        <el-row type="flex" align="middle">
           <el-col>
             <el-button
               type="primary"
@@ -22,13 +22,14 @@
 export default {
   name: "BlogIntro",
   props: {
-    bar: Object
+    bar: Object,
+    id: String
   },
-  data() {
-    return {};
-  },
-  computed: {},
-  methods: {}
+  methods: {
+    collapse() {
+      this.$emit("collapse", this.id);
+    }
+  }
 };
 </script>
 
@@ -38,18 +39,18 @@ export default {
   display: flex;
   justify-content: flex-end;
   position: fixed;
-  bottom: 15px;
+  bottom: 0;
   width: 640px;
-  height: 40px;
+  height: 45px;
 }
 .bar::before {
   content: "" !important;
   width: 640px;
-  height: 40px;
+  height: 45px;
   border-radius: 50%;
   box-shadow: 0 -11px 11px -11px #c0c4cc;
   position: fixed;
-  bottom: 15px;
+  bottom: 0;
 }
 
 .fade-enter-active {

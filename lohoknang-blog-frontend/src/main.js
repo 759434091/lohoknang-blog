@@ -6,7 +6,6 @@ import "./plugins/element";
 import "./plugins/axios";
 import "./plugins/inViewport.js";
 import "./plugins/freshScroll.js";
-import mock from "./utils/mock";
 
 Vue.config.productionTip = false;
 
