@@ -5,11 +5,11 @@
         <el-row>
           <el-col>
             <el-button
-                    type="primary"
-                    size="mini"
-                    @click="collapse"
-                    v-viewport="handlebar"
-            >收起</el-button
+              type="primary"
+              size="mini"
+              @click="collapse"
+              v-viewport="handlebar"
+              >收起</el-button
             >
           </el-col>
         </el-row>
@@ -41,15 +41,14 @@ export default {
   bottom: 15px;
   width: 640px;
   height: 40px;
-
 }
 .bar::before {
-  content: '' !important;
+  content: "" !important;
   width: 640px;
   height: 40px;
   border-radius: 50%;
-  box-shadow: 0px -11px 11px -11px #C0C4CC;
-  position: absolute;
+  box-shadow: 0 -11px 11px -11px #c0c4cc;
+  position: fixed;
   bottom: 15px;
 }
 

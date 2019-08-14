@@ -7,7 +7,6 @@ import {
   Divider,
   Header,
   Icon,
-  InfiniteScroll,
   Link,
   Main,
   Menu,
@@ -28,7 +27,6 @@ Vue.use(Main);
 Vue.use(Aside);
 Vue.use(Row);
 Vue.use(Col);
-Vue.use(InfiniteScroll);
 Vue.use(Divider);
 Vue.use(Link);
 Vue.use(Icon);
