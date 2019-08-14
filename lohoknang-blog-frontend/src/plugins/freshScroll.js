@@ -2,7 +2,7 @@ import Vue from "vue";
 
 //滚动距离
 function getScrollTop() {
-  let scrollTop = 0,
+  let scrollTop,
     bodyScrollTop = 0,
     documentScrollTop = 0;
   if (document.body) {
@@ -47,7 +47,7 @@ function getWindowHeight() {
 
 Vue.directive("freshScroll", {
   inserted(el, binding) {
-    let fn = null;
+    let fn = () => {};
     if (typeof binding.value === "function") {
       fn = binding.value;
     } else {
