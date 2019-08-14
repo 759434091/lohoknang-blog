@@ -1,78 +1,59 @@
 <template>
-  <el-container class="blog-home-container" >
-    <el-header>
-      <el-row :gutter="10">
-        <el-col :span="3">
-          <div class="blog-brand">
-            lo's blog
-          </div>
-        </el-col>
-        <el-col :span="21">
-          <el-menu
-            :router="true"
-            :default-active="activeIndex"
-            class="el-menu-demo"
-            mode="horizontal"
-          >
-            <el-menu-item index="/">POST</el-menu-item>
-            <el-menu-item index="/support">SUPPORT</el-menu-item>
-            <el-menu-item index="/about">ABOUT</el-menu-item>
-          </el-menu>
-        </el-col>
-      </el-row>
-    </el-header>
-    <el-container class="blog-home-main-container">
-      <!--suppress HtmlUnknownAttribute -->
-      <el-main class="blog-home-main">
-        <ul class="blog-home-infinite-list" v-fresh-scroll="load" >
-          <li :key="blog.id" class="infinite-list-item" v-for="blog in blogs">
-            <BlogIntro :blog="blog" />
-            <el-divider></el-divider>
+  <el-container class="blog-home-main-container">
+    <!--suppress HtmlUnknownAttribute -->
+    <el-main class="blog-home-main">
+      <ul class="blog-home-infinite-list" v-fresh-scroll="load">
+        <li :key="blog.id" class="infinite-list-item" v-for="blog in blogs">
+          <BlogIntro :blog="blog" />
+          <el-divider></el-divider>
+        </li>
+      </ul>
+    </el-main>
+    <el-aside class="blog-home-aside" width="300px">
+      <div>
+        <div class="blog-home-aside-title">
+          Category
+        </div>
+        <ul class="blog-home-aside-list">
+          <li :key="idx" v-for="(it, idx) in categories">
+            <el-link
+              :href="`/#/?type=category&value=${it}`"
+              class="blog-home-aside-link"
+              icon="el-icon-collection-tag"
+              ><span v-text="it.toUpperCase()"></span>
+            </el-link>
           </li>
         </ul>
-      </el-main>
-      <el-aside class="blog-home-aside" width="300px">
-        <div>
-          <div class="blog-home-aside-title">
-            Category
-          </div>
-          <ul class="blog-home-aside-list">
-            <li :key="idx" v-for="(it, idx) in categories">
-              <el-link
-                class="blog-home-aside-link"
-                icon="el-icon-collection-tag"
-              >
-                <span v-text="it.toUpperCase()"></span>
-              </el-link>
-            </li>
-          </ul>
+      </div>
+      <div>
+        <div class="blog-home-aside-title">
+          Date
         </div>
-        <div>
-          <div class="blog-home-aside-title">
-            Date
-          </div>
-          <ul class="blog-home-aside-list">
-            <li :key="idx" v-for="(it, idx) in dates">
-              <el-link class="blog-home-aside-link" icon="el-icon-date">
-                <span v-text="getDateText(it)"></span>
-              </el-link>
-            </li>
-          </ul>
+        <ul class="blog-home-aside-list">
+          <li :key="idx" v-for="(it, idx) in dates">
+            <el-link
+              class="blog-home-aside-link"
+              icon="el-icon-date"
+              :href="`/#/?type=date&value=${it}`"
+            >
+              <span v-text="getDateText(it)"></span>
+            </el-link>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <div class="blog-home-aside-title">
+          Update
         </div>
-        <div>
-          <div class="blog-home-aside-title">
-            Update
-          </div>
-          <ul class="blog-home-aside-list">
-            <li :key="idx" v-for="(it, idx) in updateds">
-              <el-link class="blog-home-aside-link" icon="el-icon-news">
-                <span v-text="it.title"></span>
-              </el-link>
-            </li>
-          </ul>
-        </div>
-      </el-aside>
-    </el-container>
+        <ul class="blog-home-aside-list">
+          <li :key="idx" v-for="(it, idx) in updateds">
+            <el-link class="blog-home-aside-link" icon="el-icon-news">
+              <span v-text="it.title"></span>
+            </el-link>
+          </li>
+        </ul>
+      </div>
+    </el-aside>
   </el-container>
 </template>
 
@@ -84,16 +65,20 @@ export default {
   components: { BlogIntro },
   data() {
     return {
-      activeIndex: "/",
       top: 5,
       page: 0,
-      type: "raw",
-      value: "",
       blogs: [],
       categories: [],
       dates: [],
       updateds: []
     };
+  },
+  watch: {
+    "$route.query"() {
+      this.page = 0;
+      this.blogs = [];
+      this.load();
+    }
   },
   created() {
     this.$http
@@ -136,15 +121,26 @@ export default {
       });
   },
   methods: {
+    getParams() {
+      let params;
+      if (this.$route.query.type != null && this.$route.query.value != null) {
+        params = {
+          type: this.$route.query.type,
+          value: this.$route.query.value,
+          page: this.page
+        };
+      } else {
+        params = {
+          page: this.page,
+          type: "raw",
+          value: ""
+        };
+      }
+      return params;
+    },
     load() {
       this.$http
-        .get("/blogs", {
-          params: {
-            type: this.type,
-            value: this.value,
-            page: this.page
-          }
-        })
+        .get("/blogs", { params: this.getParams() })
         .then(res => {
           this.page++;
           this.blogs.push(...res.data);
@@ -162,17 +158,6 @@ export default {
 </script>
 
 <style scoped>
-.blog-brand {
-  font-size: 20px;
-  line-height: 60px;
-  color: #606266;
-  text-align: center;
-  height: 60px;
-}
-
-.blog-home-container {
-}
-
 .blog-home-main-container {
   display: flex;
   width: 1024px;

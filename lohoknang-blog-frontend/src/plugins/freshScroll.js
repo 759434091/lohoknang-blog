@@ -47,7 +47,6 @@ function getWindowHeight() {
 
 Vue.directive("freshScroll", {
   inserted(el, binding) {
-    console.log("滚动指令运行");
     let fn = null;
     if (typeof binding.value === "function") {
       fn = binding.value;

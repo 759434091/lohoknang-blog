@@ -4,7 +4,7 @@
       <el-row type="flex" justify="center">
         <el-card>
           <div slot="header">
-            <div class="blog-not-found-text">404 NOT FOUND</div>
+            <div class="blog-not-found-text">还没写完 ~</div>
           </div>
           <img
             src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: "NotFound",
+  name: "Todo",
   created() {
     let _this = this;
     this.timer = setInterval(function() {

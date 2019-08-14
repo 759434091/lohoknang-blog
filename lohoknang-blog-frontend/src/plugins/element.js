@@ -13,7 +13,8 @@ import {
   MenuItem,
   MenuItemGroup,
   Row,
-  Submenu
+  Submenu,
+  Card
 } from "element-ui";
 
 Vue.use(Button);
@@ -30,3 +31,4 @@ Vue.use(Col);
 Vue.use(Divider);
 Vue.use(Link);
 Vue.use(Icon);
+Vue.use(Card);
