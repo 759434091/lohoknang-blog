@@ -48,7 +48,7 @@ public class BlogControlHandler {
         if (Stream
                 .of(typeKey, valueKey, pageKey)
                 .anyMatch(s -> !queryMap.containsKey(s))) {
-            throw new InvalidParameterException("Invalid query param");
+            return Mono.error(new InvalidParameterException("Invalid query param"));
         }
 
         Integer page = Optional
@@ -58,11 +58,14 @@ public class BlogControlHandler {
                     try {
                         return Integer.parseInt(s);
                     } catch (NumberFormatException e) {
-                        throw new InvalidParameterException("Invalid page");
+                        return -1;
                     }
                 })
                 .filter(p -> p >= 0 && p <= 500)
-                .orElseThrow(() -> new InvalidParameterException("Invalid page"));
+                .orElse(-1);
+        if (page == -1) {
+            return Mono.error(new InvalidParameterException("Invalid page"));
+        }
 
         return Mono.just(typeKey)
                 .map(queryMap::getFirst)
@@ -96,7 +99,10 @@ public class BlogControlHandler {
     public Mono<ServerResponse> getTopCategories(ServerRequest serverRequest) {
         Integer top = Optional.of(serverRequest)
                 .map(this::getTopParam)
-                .orElseThrow(() -> new InvalidParameterException("Invalid top"));
+                .orElse(-1);
+        if (top == -1) {
+            return Mono.error(new InvalidParameterException("Invalid top"));
+        }
 
         return ServerResponse
                 .ok()
@@ -107,7 +113,10 @@ public class BlogControlHandler {
     public Mono<ServerResponse> getTopDates(ServerRequest serverRequest) {
         Integer top = Optional.of(serverRequest)
                 .map(this::getTopParam)
-                .orElseThrow(() -> new InvalidParameterException("Invalid top"));
+                .orElse(-1);
+        if (top == -1) {
+            return Mono.error(new InvalidParameterException("Invalid top"));
+        }
 
         return ServerResponse.ok().body(blogService.getTopDates(top), ParameterizedTypeReference.forType(List.class));
     }
@@ -116,7 +125,10 @@ public class BlogControlHandler {
     public Mono<ServerResponse> getTopUpdateds(ServerRequest serverRequest) {
         Integer top = Optional.of(serverRequest)
                 .map(this::getTopParam)
-                .orElseThrow(() -> new InvalidParameterException("Invalid top"));
+                .orElse(-1);
+        if (top == -1) {
+            return Mono.error(new InvalidParameterException("Invalid top"));
+        }
 
         return ServerResponse.ok().body(blogService.getTopUpdateds(top), Blog.class);
     }
