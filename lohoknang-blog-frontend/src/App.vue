@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <el-container class="app-container">
-      <el-header>
+      <el-header class="app-header">
         <el-row>
           <el-col :span="3">
             <div class="app-brand">
-              <a class="app-brand-link" href="/#/">lo's blog</a>
+              <a class="app-brand-link" href="/#/">A9043 BLOG</a>
             </div>
           </el-col>
           <el-col :span="21">
@@ -59,6 +59,10 @@ body {
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
 
+.app-header {
+  height: 60px !important;
+}
+
 .app-brand {
   height: 60px;
   font-size: 20px;
@@ -69,7 +73,9 @@ body {
 }
 
 .app-menu-item {
+  line-height: 54px !important;
   height: 60px !important;
+  font-size: 16px;
 }
 
 .app-brand-link,
