@@ -58,11 +58,13 @@ export default {
       bar: {
         show: false,
         id: this.blog.id
-      }
+      },
+      lastScrollTop: document.querySelector("html").scrollTop
     };
   },
   methods: {
     introClick() {
+      this.lastScrollTop = document.querySelector("html").scrollTop;
       this.$http
         .get(`/blogs/${this.blog.id}`)
         .then(res => {
@@ -77,6 +79,7 @@ export default {
     },
     collapse() {
       this.blogDetail = null;
+      document.querySelector("html").scrollTop = this.lastScrollTop;
     },
     handlebar(dataset, flag) {
       this.bar.show = !flag;

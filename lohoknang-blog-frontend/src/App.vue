@@ -74,6 +74,10 @@ export default {
   text-decoration: unset;
 }
 
+.blog-intro-content img {
+  width: 100%;
+}
+
 .blog-intro-content pre {
   overflow: auto;
 }

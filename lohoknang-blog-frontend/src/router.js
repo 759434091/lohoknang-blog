@@ -23,6 +23,11 @@ export default new Router({
       component: () => import("./views/About.vue")
     },
     {
+      path: "/editor",
+      name: "editor",
+      component: () => import("./components/MarkedEditor.vue")
+    },
+    {
       path: "*",
       name: "NotFound",
       component: () => import("./views/NotFound")

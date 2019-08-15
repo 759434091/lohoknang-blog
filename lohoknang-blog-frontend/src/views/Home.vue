@@ -9,7 +9,7 @@
         </li>
       </ul>
     </el-main>
-    <el-aside class="blog-home-aside" width="300px">
+    <el-aside class="blog-home-aside">
       <div>
         <div class="blog-home-aside-title">
           Category
@@ -172,6 +172,7 @@ export default {
 }
 
 .blog-home-aside {
+  width: 300px;
   padding-top: 30px;
 }
 
