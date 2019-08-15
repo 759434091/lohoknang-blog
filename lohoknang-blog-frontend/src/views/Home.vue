@@ -47,7 +47,7 @@
         </div>
         <ul class="blog-home-aside-list">
           <li :key="idx" v-for="(it, idx) in updateds">
-            <el-link class="blog-home-aside-link" icon="el-icon-news">
+            <el-link class="blog-home-aside-link" icon="el-icon-news" :href="`/#/blogs/${it.id}`">
               <span v-text="it.title"></span>
             </el-link>
           </li>
