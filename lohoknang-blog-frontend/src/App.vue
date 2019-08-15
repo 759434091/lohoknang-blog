@@ -84,14 +84,20 @@ body {
   text-decoration: unset;
 }
 
-.blog-intro-content img {
+.blog-content img,
+.blog-intro-content img,
+.editor-preview img {
   width: 100%;
 }
 
-.blog-intro-content pre {
+.blog-content pre,
+.blog-intro-content pre,
+.editor-preview pre {
   overflow: auto;
 }
 
+.blog-content a,
+.editor-preview a,
 .blog-intro-content a {
   display: inline-flex;
   flex-direction: row;

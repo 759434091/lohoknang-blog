@@ -51,7 +51,7 @@ Vue.directive("freshScroll", {
     if (typeof binding.value === "function") {
       fn = binding.value;
     } else {
-      throw new Error("v-fresh-scroll directive need a function");
+      return;
     }
     const tellBottom = function() {
       if (getScrollTop() + getWindowHeight() === getScrollHeight()) {

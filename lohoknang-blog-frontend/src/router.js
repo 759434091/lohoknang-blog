@@ -23,6 +23,11 @@ export default new Router({
       component: () => import("./views/About.vue")
     },
     {
+      path: "/blogs/:id",
+      name: "blog",
+      component: () => import("./views/Blog.vue")
+    },
+    {
       path: "/editor",
       name: "editor",
       component: () => import("./components/MarkedEditor.vue")

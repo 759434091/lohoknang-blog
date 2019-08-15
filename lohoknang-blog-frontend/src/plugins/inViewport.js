@@ -41,7 +41,7 @@ Vue.directive("viewport", {
     if (typeof binding.value === "function") {
       fn = binding.value;
     } else {
-      throw new Error("v-viewport directive need a function");
+      return;
     }
 
     let ifStill = Symbol.for("still");

@@ -1,6 +1,12 @@
 <template>
   <div class="blog-intro">
-    <div class="blog-intro-title" v-text="blog.title"></div>
+    <div class="blog-intro-title">
+      <a
+        class="blog-intro-title-link"
+        :href="`/#/blogs/${blog.id}`"
+        v-text="blog.title"
+      ></a>
+    </div>
     <div class="blog-intro-text" @click="introClick" v-if="blogDetail == null">
       <div v-if="blogDetail == null">
         <span v-text="blog.intro"></span>
@@ -69,9 +75,7 @@ export default {
         .get(`/blogs/${this.blog.id}`)
         .then(res => {
           this.blogDetail = res.data;
-          this.blogDetail.content = marked(
-            this.blogDetail.content.replace(/\\r|\\n/g, "\n")
-          );
+          this.blogDetail.content = marked(this.blogDetail.content);
         })
         .catch(err => {
           this.$message.error(err);
@@ -94,11 +98,14 @@ export default {
 }
 
 .blog-intro-title {
-  cursor: pointer;
+  margin: 10px 0;
+}
+
+.blog-intro-title-link {
   line-height: 1.7;
   font-size: 20px;
   color: #606266;
-  margin: 10px 0;
+  text-decoration: unset;
 }
 
 .blog-intro-title:hover {
