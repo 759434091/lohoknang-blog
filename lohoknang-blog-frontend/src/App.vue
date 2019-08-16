@@ -84,6 +84,12 @@ body {
   text-decoration: unset;
 }
 
+.blog-content,
+.blog-intro-content,
+.editor-preview {
+  font-size: 14px;
+}
+
 .blog-content img,
 .blog-intro-content img,
 .editor-preview img {
