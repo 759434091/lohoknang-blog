@@ -172,7 +172,7 @@ export default {
 }
 
 .blog-home-aside {
-  width: 300px;
+  width: 300px !important;
   padding-top: 30px;
 }
 
