@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-home-container">
+  <div class="blog-home-container" ref="blog-home-container" @scroll="scroll">
     <el-container class="blog-home-main-container">
       <!--suppress HtmlUnknownAttribute -->
       <el-main class="blog-home-main">
@@ -73,6 +73,8 @@ export default {
   components: { BlogIntro, InfiniteLoading },
   data() {
     return {
+      query: this.$route.query,
+      scrollTop: 0,
       top: 5,
       page: 0,
       blogs: [],
@@ -82,10 +84,20 @@ export default {
     };
   },
   watch: {
-    "$route.query"() {
-      this.page = 0;
-      this.blogs = [];
-      this.load();
+    "$route.query"(newQuery) {
+      if (
+        !(
+          newQuery.type === this.query.type &&
+          newQuery.value === this.query.value
+        )
+      ) {
+        this.page = 0;
+        this.blogs = [];
+        this.scrollTop = 0;
+        this.load();
+      }
+      this.query = newQuery;
+      this.$refs["blog-home-container"].scrollTop = this.scrollTop;
     }
   },
   created() {
@@ -165,6 +177,9 @@ export default {
     getDateText(date) {
       const arr = date.split("-");
       return `${arr[0]}年 - ${arr[1]}月`;
+    },
+    scroll($event) {
+      this.scrollTop = $event.target.scrollTop;
     }
   }
 };
@@ -174,6 +189,7 @@ export default {
 .blog-home-container {
   width: 100vw;
   height: calc(100vh - 60px);
+  overflow-y: auto;
 }
 
 .blog-home-main-container {

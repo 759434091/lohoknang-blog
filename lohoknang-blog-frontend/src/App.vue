@@ -28,7 +28,9 @@
           </el-col>
         </el-row>
       </el-header>
-      <router-view></router-view>
+      <keep-alive include="Home">
+        <router-view></router-view>
+      </keep-alive>
     </el-container>
   </div>
 </template>
