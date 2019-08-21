@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 import "./plugins/axios";
 import "./plugins/inViewport.js";
-import "./plugins/freshScroll.js";
 
 Vue.config.productionTip = false;
 

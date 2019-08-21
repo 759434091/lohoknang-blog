@@ -1,68 +1,76 @@
 <template>
-  <el-container class="blog-home-main-container">
-    <!--suppress HtmlUnknownAttribute -->
-    <el-main class="blog-home-main">
-      <ul class="blog-home-infinite-list" v-fresh-scroll="load">
-        <li :key="blog.id" class="infinite-list-item" v-for="blog in blogs">
-          <BlogIntro :blog="blog" />
-          <el-divider></el-divider>
-        </li>
-      </ul>
-    </el-main>
-    <el-aside class="blog-home-aside">
-      <div>
-        <div class="blog-home-aside-title">
-          Category
-        </div>
-        <ul class="blog-home-aside-list">
-          <li :key="idx" v-for="(it, idx) in categories">
-            <el-link
-              :href="`/#/?type=category&value=${it}`"
-              class="blog-home-aside-link"
-              icon="el-icon-collection-tag"
-              ><span v-text="it.toUpperCase()"></span>
-            </el-link>
+  <div class="blog-home-container">
+    <el-container class="blog-home-main-container">
+      <!--suppress HtmlUnknownAttribute -->
+      <el-main class="blog-home-main">
+        <ul class="blog-home-infinite-list">
+          <li :key="blog.id" class="infinite-list-item" v-for="blog in blogs">
+            <BlogIntro :blog="blog" />
+            <el-divider></el-divider>
           </li>
         </ul>
-      </div>
-      <div>
-        <div class="blog-home-aside-title">
-          Date
+      </el-main>
+      <el-aside class="blog-home-aside">
+        <div>
+          <div class="blog-home-aside-title">
+            Category
+          </div>
+          <ul class="blog-home-aside-list">
+            <li :key="idx" v-for="(it, idx) in categories">
+              <el-link
+                :href="`/#/?type=category&value=${it}`"
+                class="blog-home-aside-link"
+                icon="el-icon-collection-tag"
+                ><span v-text="it.toUpperCase()"></span>
+              </el-link>
+            </li>
+          </ul>
         </div>
-        <ul class="blog-home-aside-list">
-          <li :key="idx" v-for="(it, idx) in dates">
-            <el-link
-              class="blog-home-aside-link"
-              icon="el-icon-date"
-              :href="`/#/?type=date&value=${it}`"
-            >
-              <span v-text="getDateText(it)"></span>
-            </el-link>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <div class="blog-home-aside-title">
-          Update
+        <div>
+          <div class="blog-home-aside-title">
+            Date
+          </div>
+          <ul class="blog-home-aside-list">
+            <li :key="idx" v-for="(it, idx) in dates">
+              <el-link
+                class="blog-home-aside-link"
+                icon="el-icon-date"
+                :href="`/#/?type=date&value=${it}`"
+              >
+                <span v-text="getDateText(it)"></span>
+              </el-link>
+            </li>
+          </ul>
         </div>
-        <ul class="blog-home-aside-list">
-          <li :key="idx" v-for="(it, idx) in updateds">
-            <el-link class="blog-home-aside-link" icon="el-icon-news" :href="`/#/blogs/${it.id}`">
-              <span v-text="it.title"></span>
-            </el-link>
-          </li>
-        </ul>
-      </div>
-    </el-aside>
-  </el-container>
+        <div>
+          <div class="blog-home-aside-title">
+            Update
+          </div>
+          <ul class="blog-home-aside-list">
+            <li :key="idx" v-for="(it, idx) in updateds">
+              <el-link
+                class="blog-home-aside-link"
+                icon="el-icon-news"
+                :href="`/#/blogs/${it.id}`"
+              >
+                <span v-text="it.title"></span>
+              </el-link>
+            </li>
+          </ul>
+        </div>
+      </el-aside>
+    </el-container>
+    <infinite-loading class="infinite-div" @infinite="load"></infinite-loading>
+  </div>
 </template>
 
 <script>
+import InfiniteLoading from "vue-infinite-loading";
 import BlogIntro from "../components/BlogIntro";
 
 export default {
   name: "Home",
-  components: { BlogIntro },
+  components: { BlogIntro, InfiniteLoading },
   data() {
     return {
       top: 5,
@@ -138,15 +146,17 @@ export default {
       }
       return params;
     },
-    load() {
+    load($state) {
       this.$http
         .get("/blogs", { params: this.getParams() })
         .then(res => {
           if (res.data.length === 0) {
+            $state.complete();
             return;
           }
           this.page++;
           this.blogs.push(...res.data);
+          $state.loaded();
         })
         .catch(err => {
           this.$message.error(err);
@@ -161,6 +171,11 @@ export default {
 </script>
 
 <style scoped>
+.blog-home-container {
+  width: 100vw;
+  height: calc(100vh - 60px);
+}
+
 .blog-home-main-container {
   display: flex;
   width: 1024px;
@@ -201,5 +216,9 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
+}
+
+.infinite-div {
+  width: 1024px;
 }
 </style>
