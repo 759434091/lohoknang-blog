@@ -24,12 +24,8 @@
         watch: {
             '$route'(to) {
                 switch (to.name) {
-                    case 'home': {
-                        this.active = 0;
-                        break;
-                    }
                     case 'blogPage': {
-                        this.active = 1;
+                        this.active = 0;
                         break;
                     }
                     case 'blogContent': {

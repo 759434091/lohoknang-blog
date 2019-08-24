@@ -7,7 +7,7 @@
                     作者 ${blogContent.author} |
                     发布于 ${new Date(blogContent.createdAt).toLocaleString()} |
                     最后修改于 ${new Date(blogContent.updatedAt).toLocaleString()} |
-                    ${blogContent.viewNum} 阅读`"></p>
+                    ${blogContent.videoNum} 阅读`"></p>
             <component v-bind:is="component " class="html-content" v-highlight/>
             <mu-flex justify-content="end">
                 <mu-button class="bc-back" flat @click="goBack">
