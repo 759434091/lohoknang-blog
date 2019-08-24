@@ -79,8 +79,10 @@ Vue.directive("viewport", {
     }
   },
   unbind(el) {
-    const { callback } = el._viewport;
-    window.removeEventListener("scroll", callback, true);
+    if (el._viewport != null) {
+      const { callback } = el._viewport;
+      window.removeEventListener("scroll", callback, true);
+    }
     Reflect.deleteProperty(el, "_viewport");
   }
 });

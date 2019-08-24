@@ -7,9 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
-  "dependencies": {
-    "vue-infinite-loading": "^2.4.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
@@ -30,6 +28,7 @@
     "vue": "latest",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-router": "latest",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "vue-infinite-loading": "latest"
   }
 }
