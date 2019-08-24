@@ -15,6 +15,13 @@
     <script src="https://cdn.jsdelivr.net/npm/vue-infinite-loading@2.4.4/dist/vue-infinite-loading.min.js"></script>
     <link crossorigin="anonymous" integrity="sha384-gBg9KfiFzIDuZD7RU3CdcOprdxlKUeSv+zJOAPcxWFopKFDC1V941KC808kLlmhW" href="//lib.baomitu.com/element-ui/2.11.1/theme-chalk/index.css" rel="stylesheet">
     <meta name="google-site-verification" content="cdl8GKm2qZkVS0Kj7IQcdFtvIphwcUGzq9OoUwN1XAY" />
+    <script>
+      if (window.innerWidth <= 1024) {
+        const pattern = /https:\/\/lohoknang\.blog\/(\S*)/;
+        const strs = pattern.exec(window.location.href);
+        window.location.href = (strs != null && strs.length > 0) ? 'https://m.lohoknang.blog/' : 'https://m.lohoknang.blog/' + strs[1]
+      }
+    </script>
   </head>
   <body style="min-width: 1366px">
     <noscript>
