@@ -1,0 +1,40 @@
+{
+  "name": "a9043-blog-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.10.0",
+    "@vue/cli-plugin-eslint": "^3.10.0",
+    "@vue/cli-service": "^3.10.0",
+    "axios": "latest",
+    "gitment": "latest",
+    "hljs": "latest",
+    "lint-staged": "latest",
+    "muse-ui": "latest",
+    "muse-ui-loading": "latest",
+    "showdown": "latest",
+    "vue-template-compiler": "^2.6.10",
+    "typeface-roboto": "latest",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
+}

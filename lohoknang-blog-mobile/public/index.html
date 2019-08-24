@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>myLogo.jpg">
+    <link href="https://cdn.jsdelivr.net/npm/typeface-roboto@0.0.75/index.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/muse-ui@3.0.2/dist/muse-ui.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/muse-ui-loading@0.2.0/dist/muse-ui-loading.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/vs2015.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.19.0/dist/axios.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.2/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/muse-ui-loading@0.2.0/dist/muse-ui-loading.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/muse-ui@3.0.2/dist/muse-ui.min.js"></script>
+    <script src="https://lib.baomitu.com/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.8.6/dist/showdown.min.js"></script>
+    <title>lohoknang-blog-mobile</title>
+    <script>
+        if (window.innerWidth > 1024) {
+            const pattern = /https:\/\/m.lohoknang.blog\/(\S*)/;
+            const strs = pattern.exec(window.location.href);
+            window.location.href = (strs != null && strs.length > 0) ? 'https://lohoknang.blog/' : 'https://lohoknang.blog/' + strs[1]
+        }
+
+        function downLoadCss() {
+            const elem = document.createElement('link');
+            elem.rel = 'stylesheet';
+            elem.href = 'https://imsun.github.io/gitment/style/default.css';
+            document.body.appendChild(elem);
+        }
+
+        function asyncLoad() {
+            let js = document.createElement('script');
+            js.type = 'text/javascript';
+            js.async = true;
+            js.src = ('https://imsun.github.io/gitment/dist/gitment.browser.js');
+            let scripts = document.getElementsByTagName('script')[0];
+            scripts.parentNode.insertBefore(js, scripts);
+        }
+
+        (function () {
+                if (window.attachEvent) {
+                    window.attachEvent("load", asyncLoad);
+                } else {
+                    window.addEventListener("load", asyncLoad);
+                }
+            }
+        )();
+    </script>
+</head>
+<body onload="downLoadCss()">
+<noscript>
+    <strong>We're sorry but a9043-blog-mobile doesn't work properly without JavaScript enabled. Please enable it to
+        continue.</strong>
+</noscript>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+</body>
+</html>
