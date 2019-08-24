@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>blog.lohoknang</groupId>
-    <artifactId>lohoknang-blog-frontend</artifactId>
+    <artifactId>lohoknang-blog-mobile</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>lohoknang-blog-frontend</name>
+    <name>lohoknang-blog-mobile</name>
     <description>Demo project for Spring Boot</description>
     <packaging>pom</packaging>
 </project>
