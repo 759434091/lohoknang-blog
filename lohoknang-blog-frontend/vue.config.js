@@ -4,6 +4,7 @@ module.exports = {
       vue: "Vue",
       "vue-router": "VueRouter",
       vuex: "Vuex",
+      hljs: "hljs",
       axios: "axios",
       "element-ui": "ELEMENT",
       marked: "marked",

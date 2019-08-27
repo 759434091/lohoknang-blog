@@ -19,6 +19,7 @@
     "eslint": "^5.16.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0",
+    "hljs": "^6.2.3",
     "marked": "^0.7.0",
     "mockjs": "^1.0.1-beta3",
     "postcss-load-config": "^2.1.0",
@@ -27,8 +28,8 @@
     "prettier": "^1.18.2",
     "vue": "latest",
     "vue-cli-plugin-element": "^1.0.1",
+    "vue-infinite-loading": "latest",
     "vue-router": "latest",
-    "vue-template-compiler": "^2.6.10",
-    "vue-infinite-loading": "latest"
+    "vue-template-compiler": "^2.6.10"
   }
 }

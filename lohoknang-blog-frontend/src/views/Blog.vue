@@ -12,12 +12,12 @@
       ${new Date(blog.updatedAt).toLocaleString()}`
             "
           ></div>
-          <div v-html="marked"></div>
+          <div v-html="marked" v-highlight></div>
         </div>
         <el-footer class="blog-footer">
           <el-row type="flex">
             <el-col>
-              <el-link :href="/#/" class="blog-back" icon="el-icon-d-arrow-left"
+              <el-link href="/#/" class="blog-back" icon="el-icon-d-arrow-left"
                 >返回</el-link
               >
             </el-col>

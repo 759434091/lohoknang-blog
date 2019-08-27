@@ -26,7 +26,7 @@
       ${new Date(blog.updatedAt).toLocaleString()}`
         "
       ></div>
-      <div v-html="blogDetail.content"></div>
+      <div v-html="blogDetail.content" v-highlight></div>
       <div class="blog-intro-content-footer">
         <el-row type="flex" justify="end" :class="buttonClass">
           <el-button

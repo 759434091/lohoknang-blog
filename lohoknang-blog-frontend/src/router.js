@@ -30,7 +30,7 @@ export default new Router({
     {
       path: "/editor",
       name: "editor",
-      component: () => import("./components/MarkedEditor.vue")
+      component: () => import("./views/MarkedEditor.vue")
     },
     {
       path: "*",
