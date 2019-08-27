@@ -18,8 +18,8 @@
               <el-menu-item class="app-menu-item" index="/">
                 <a href="/#/" class="app-menu-link">POST</a>
               </el-menu-item>
-              <el-menu-item class="app-menu-item" index="/support">
-                <a href="/#/support" class="app-menu-link">SUPPORT</a>
+              <el-menu-item class="app-menu-item" index="/contact">
+                <a href="/#/contact" class="app-menu-link">CONTACT</a>
               </el-menu-item>
               <el-menu-item class="app-menu-item" index="/about">
                 <a href="/#/about" class="app-menu-link">ABOUT</a>
