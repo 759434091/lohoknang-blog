@@ -2,9 +2,11 @@ package blog.lohoknang.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import javax.annotation.Resource;
 
+import lombok.val;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +23,9 @@ import blog.lohoknang.repository.BlogRepository;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.SignalType;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 /**
  * @author <a href="luxueneng@baidu.com">luxueneng</a>
@@ -35,16 +40,43 @@ public class BlogService {
     @Resource
     private ReactiveMongoTemplate reactiveMongoTemplate;
 
+    private Scheduler statisticScheduler = Schedulers.newSingle("statistic");
+
+    private ConcurrentSkipListSet<ObjectId> idSet = new ConcurrentSkipListSet<>();
+
     public Mono<Blog> getBlog(@NonNull String idStr) {
         return Mono
                 .just(idStr)
                 .map(ObjectId::new)
-                .onErrorContinue(
+                .onErrorMap(
                         e -> (e instanceof IllegalArgumentException),
-                        (e, val) -> {
-                            throw new InvalidParameterException(e.getMessage());
-                        })
-                .flatMap(blogRepository::findById);
+                        e -> new InvalidParameterException(e.getMessage())
+                )
+                .flatMap(blogRepository::findById)
+                .doOnNext(this::addViewNum);
+    }
+
+    private void addViewNum(Blog blog){
+        statisticScheduler.schedule(() -> {
+            val id = blog.getId();
+            blog.setViewNum(blog.getViewNum() + 1);
+            blogRepository
+                    .save(blog)
+                    .doOnSubscribe(subscription -> {
+                        val mills = System.currentTimeMillis();
+                        while (!idSet.add(id)) {
+                            if (System.currentTimeMillis() - mills > 3 * 1000) {
+                                subscription.cancel();
+                                break;
+                            }
+                        }
+                    })
+                    .doFinally(signalType -> {
+                        if (signalType != SignalType.CANCEL) {
+                            idSet.remove(id);
+                        }
+                    });
+        });
     }
 
     public Flux<Blog> getBlogIntroByRaw(@NonNull Integer page) {

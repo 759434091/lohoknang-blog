@@ -31,7 +31,7 @@ public class BlogRepositoryTest extends BlogBackendApplicationTests {
                 .category("node")
                 .content("conasdfasdfdftent")
                 .intro("insadftro")
-                .videoNum(1)
+                .viewNum(1)
                 .build();
 
         CountDownLatch countDownLatch = new CountDownLatch(1);

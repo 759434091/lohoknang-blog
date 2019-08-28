@@ -52,7 +52,7 @@ public class RobotControlHandler {
                                 blog.getAuthor(),
                                 blog.getCreatedAt(),
                                 blog.getUpdatedAt(),
-                                blog.getVideoNum(),
+                                blog.getViewNum(),
                                 blog.getContent(),
                                 str)))
                 .flatMap(bodyMono -> ServerResponse.ok().contentType(MediaType.TEXT_HTML).body(bodyMono, String.class));
