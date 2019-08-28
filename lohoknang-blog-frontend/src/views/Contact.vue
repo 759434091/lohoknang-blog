@@ -5,7 +5,13 @@
         <h1 class="contact-brand">联系我</h1>
       </el-header>
       <el-main>
-        <el-form :disabled="true" ref="form" :model="form" :rules="rules" label-position="top">
+        <el-form
+          :disabled="true"
+          ref="form"
+          :model="form"
+          :rules="rules"
+          label-position="top"
+        >
           <el-form-item label="称呼" prop="name">
             <el-input
               v-model="form.name"

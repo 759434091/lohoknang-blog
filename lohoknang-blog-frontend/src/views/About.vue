@@ -5,7 +5,10 @@
         <h1 class="about-brand">关于我</h1>
       </el-header>
       <el-main>
-        <el-image fit="fill" :src="`${publicPath}blog_logo.jpg`"> </el-image>
+        <div class="about-img-container">
+          <el-image fit="contain" :src="`${publicPath}blog-logo.jpeg`">
+          </el-image>
+        </div>
         <pre class="self-intro">
   UESTC准备毕业。实习刚离职，2020年应届生
 
@@ -61,5 +64,11 @@ export default {
   font-weight: normal;
   font-size: 16px;
   color: #606266;
+}
+
+.about-img-container {
+  margin: 0 auto;
+  width: 300px;
+  height: 300px;
 }
 </style>
