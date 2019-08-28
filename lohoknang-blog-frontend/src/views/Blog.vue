@@ -9,7 +9,8 @@
             v-text="
               `${blog.author} | ${blog.category} |
       ${new Date(blog.createdAt).toLocaleString()} |
-      ${new Date(blog.updatedAt).toLocaleString()}`
+      ${new Date(blog.updatedAt).toLocaleString()} |
+      ${blog.viewNum} 阅读`
             "
           ></div>
           <div v-html="marked" v-highlight></div>
