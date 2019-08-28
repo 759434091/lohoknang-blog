@@ -6,7 +6,7 @@
                 :sub-title="`${blogIntro.category} |
                              ${new Date(blogIntro.createdAt).toDateString()} |
                              ${blogIntro.author} |
-                             ${blogIntro.videoNum}阅读`"
+                             ${blogIntro.viewNum}阅读`"
                 @click="$router.push(`/blogs/${blogIntro.id}`)"></mu-card-title>
         <mu-card-text class="bi-card-text" v-text="`${blogIntro.intro}...`"></mu-card-text>
         <mu-card-actions>
