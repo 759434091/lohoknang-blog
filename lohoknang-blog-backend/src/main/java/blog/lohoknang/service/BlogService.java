@@ -70,7 +70,7 @@ public class BlogService {
             blogRepository
                     .findById(blog.getId())
                     .doOnNext(it -> it.setViewNum(it.getViewNum() + 1))
-                    .map(blogRepository::save)
+                    .flatMap(blogRepository::save)
                     .doFinally(signalType -> idSet.remove(id))
                     .subscribeOn(statisticScheduler)
                     .subscribe();
