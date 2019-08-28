@@ -1,5 +1,6 @@
 package blog.lohoknang.service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -56,7 +57,7 @@ public class BlogService {
                 .doOnNext(this::addViewNum);
     }
 
-    private void addViewNum(Blog blog){
+    private void addViewNum(Blog blog) {
         statisticScheduler.schedule(() -> {
             val id = blog.getId();
             blog.setViewNum(blog.getViewNum() + 1);
@@ -75,7 +76,8 @@ public class BlogService {
                         if (signalType != SignalType.CANCEL) {
                             idSet.remove(id);
                         }
-                    });
+                    })
+                    .block(Duration.ofSeconds(5));
         });
     }
 
