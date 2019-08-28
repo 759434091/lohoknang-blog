@@ -44,7 +44,7 @@ public class Blog {
 
     private String intro;
 
-    private Integer videoNum;
+    private Integer viewNum;
 
     @CreatedDate
     private LocalDateTime createdAt;
