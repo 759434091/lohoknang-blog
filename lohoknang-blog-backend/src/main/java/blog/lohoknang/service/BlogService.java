@@ -58,26 +58,23 @@ public class BlogService {
     }
 
     private void addViewNum(Blog blog) {
-        val id = blog.getId();
-        blog.setViewNum(blog.getViewNum() + 1);
-        blogRepository
-                .save(blog)
-                .doOnSubscribe(subscription -> {
-                    val mills = System.currentTimeMillis();
-                    while (!idSet.add(id)) {
-                        if (System.currentTimeMillis() - mills > 3 * 1000) {
-                            subscription.cancel();
-                            break;
-                        }
-                    }
-                })
-                .doFinally(signalType -> {
-                    if (signalType != SignalType.CANCEL) {
-                        idSet.remove(id);
-                    }
-                })
-                .subscribeOn(statisticScheduler)
-                .subscribe();
+        statisticScheduler.schedule(() -> {
+            val id = blog.getId();
+            val mills = System.currentTimeMillis();
+            while (!idSet.add(id)) {
+                if (System.currentTimeMillis() - mills > 3 * 1000) {
+                    return;
+                }
+            }
+
+            blogRepository
+                    .findById(blog.getId())
+                    .doOnNext(it -> it.setViewNum(it.getViewNum() + 1))
+                    .map(blogRepository::save)
+                    .doFinally(signalType -> idSet.remove(id))
+                    .subscribeOn(statisticScheduler)
+                    .subscribe();
+        });
     }
 
     public Flux<Blog> getBlogIntroByRaw(@NonNull Integer page) {
