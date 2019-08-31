@@ -102,7 +102,7 @@ public class BlogService {
                                 pageRequest));
     }
 
-    public Mono<List<String>> getTopCategories(Integer top) {
+    public Flux<String> getTopCategories(Integer top) {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.group("category").count().as("count"),
                 Aggregation.sort(Sort.Direction.DESC, "count"),
@@ -111,11 +111,10 @@ public class BlogService {
 
         return reactiveMongoTemplate
                 .aggregate(aggregation, "blog", Document.class)
-                .map(document -> document.getString("_id"))
-                .collectList();
+                .map(document -> document.getString("_id"));
     }
 
-    public Mono<List<String>> getTopDates(Integer top) {
+    public Flux<String> getTopDates(Integer top) {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation
                         .project("createdAt")
@@ -128,8 +127,7 @@ public class BlogService {
 
         return reactiveMongoTemplate
                 .aggregate(aggregation, "blog", Document.class)
-                .map(document -> document.getString("_id"))
-                .collectList();
+                .map(document -> document.getString("_id"));
     }
 
     @SuppressWarnings("SpellCheckingInspection")

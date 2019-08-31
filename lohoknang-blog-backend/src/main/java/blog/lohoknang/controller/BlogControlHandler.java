@@ -1,26 +1,21 @@
 package blog.lohoknang.controller;
 
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import javax.annotation.Resource;
-
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.reactive.function.server.ServerRequest;
-import org.springframework.web.reactive.function.server.ServerResponse;
-
 import blog.lohoknang.constant.FindType;
 import blog.lohoknang.entity.Blog;
 import blog.lohoknang.exc.InvalidParameterException;
 import blog.lohoknang.service.BlogService;
+import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
+
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * @author <a href="luxueneng@baidu.com">luxueneng</a>
@@ -97,43 +92,26 @@ public class BlogControlHandler {
     }
 
     public Mono<ServerResponse> getTopCategories(ServerRequest serverRequest) {
-        Integer top = Optional.of(serverRequest)
-                .map(this::getTopParam)
-                .orElse(-1);
-        if (top == -1) {
-            return Mono.error(new InvalidParameterException("Invalid top"));
-        }
-
-        return ServerResponse
-                .ok()
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .body(blogService.getTopCategories(top), ParameterizedTypeReference.forType(List.class));
+        return getTopParam(serverRequest)
+                .flatMapMany(blogService::getTopCategories)
+                .collectList()
+                .flatMap(it -> ServerResponse.ok().syncBody(it));
     }
 
     public Mono<ServerResponse> getTopDates(ServerRequest serverRequest) {
-        Integer top = Optional.of(serverRequest)
-                .map(this::getTopParam)
-                .orElse(-1);
-        if (top == -1) {
-            return Mono.error(new InvalidParameterException("Invalid top"));
-        }
-
-        return ServerResponse.ok().body(blogService.getTopDates(top), ParameterizedTypeReference.forType(List.class));
+        return getTopParam(serverRequest)
+                .flatMapMany(blogService::getTopDates)
+                .collectList()
+                .flatMap(it -> ServerResponse.ok().syncBody(it));
     }
 
     @SuppressWarnings("SpellCheckingInspection")
     public Mono<ServerResponse> getTopUpdateds(ServerRequest serverRequest) {
-        Integer top = Optional.of(serverRequest)
-                .map(this::getTopParam)
-                .orElse(-1);
-        if (top == -1) {
-            return Mono.error(new InvalidParameterException("Invalid top"));
-        }
-
-        return ServerResponse.ok().body(blogService.getTopUpdateds(top), Blog.class);
+        return getTopParam(serverRequest)
+                .flatMapMany(blogService::getTopUpdateds)
+                .collectList()
+                .flatMap(it -> ServerResponse.ok().syncBody(it));
     }
-
-    /* --------------------util --------------------*/
 
     private LocalDateTime[] getValidDateTime(String dateStr) {
         if (dateStr == null
@@ -150,19 +128,16 @@ public class BlogControlHandler {
         LocalDateTime startTime = LocalDateTime.of(year, month, 1, 0, 0);
         LocalDateTime endTime = startTime.plus(1, ChronoUnit.MONTHS);
 
-        return new LocalDateTime[] {startTime, endTime};
+        return new LocalDateTime[]{startTime, endTime};
     }
 
-    private Integer getTopParam(ServerRequest serverRequest) {
-        return serverRequest.queryParam("top")
-                .map(str -> {
-                    try {
-                        return Integer.valueOf(str);
-                    } catch (NumberFormatException e) {
-                        return null;
-                    }
-                })
-                .filter(t -> t > 0 && t < 6)
-                .orElse(null);
+    private Mono<Integer> getTopParam(ServerRequest serverRequest) {
+        return Mono
+                .justOrEmpty(serverRequest.queryParam("top"))
+                .map(Integer::valueOf)
+                .onErrorResume(throwable -> Mono.empty())
+                .filter(it -> it > 0 && it < 6)
+                .switchIfEmpty(Mono.error(new InvalidParameterException("Invalid top")))
+                .onErrorMap(throwable -> throwable instanceof NumberFormatException, throwable -> new InvalidParameterException("Invalid top"));
     }
 }
