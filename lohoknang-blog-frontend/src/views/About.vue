@@ -5,10 +5,33 @@
         <h1 class="about-brand">关于我</h1>
       </el-header>
       <el-main>
-        <div class="about-img-container">
-          <el-image fit="contain" :src="`${publicPath}blog-logo.jpeg`">
-          </el-image>
-        </div>
+        <el-row type="flex">
+          <el-col :span="12">
+            <el-form class="intro-form" size="medium" label-position="left">
+              <el-form-item label="BLOG">
+                <el-link href="https://lohoknang.blog">
+                  LOHOKNANG.BLOG
+                </el-link>
+              </el-form-item>
+              <el-form-item label="GITHUB">
+                <el-link href="https://github.com/759434091"
+                  >HokNang_Loue</el-link
+                >
+              </el-form-item>
+              <el-form-item label="MAIL">
+                <el-link href="mailto:zzz13129180808@Gmail.com"
+                  >zzz13129180808@Gmail.com</el-link
+                >
+              </el-form-item>
+            </el-form>
+          </el-col>
+          <el-col :span="12">
+            <div class="about-img-container">
+              <el-image fit="contain" :src="`${publicPath}blog-logo.jpeg`">
+              </el-image>
+            </div>
+          </el-col>
+        </el-row>
         <pre class="self-intro">
   UESTC在读。实习刚离职，2020年应届生
 
@@ -37,7 +60,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .about-container {
   width: 100vw;
   height: calc(100vh - 60px);
@@ -56,6 +79,22 @@ export default {
   color: #606266;
 }
 
+.intro-form {
+  margin-top: 20px;
+}
+
+.intro-form,
+.intro-form label,
+.intro-form span {
+  font-weight: normal;
+  font-size: 16px;
+  color: #606266;
+}
+
+.intro-form label {
+  width: 80px;
+}
+
 .self-intro {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
@@ -66,7 +105,7 @@ export default {
 
 .about-img-container {
   margin: 0 auto;
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
 }
 </style>
