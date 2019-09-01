@@ -1,12 +1,9 @@
 package blog.lohoknang.service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.concurrent.ConcurrentSkipListSet;
-
-import javax.annotation.Resource;
-
+import blog.lohoknang.entity.Blog;
+import blog.lohoknang.exc.InvalidParameterException;
+import blog.lohoknang.repository.BlogRepository;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -17,16 +14,14 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.DateOperators;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-
-import blog.lohoknang.entity.Blog;
-import blog.lohoknang.exc.InvalidParameterException;
-import blog.lohoknang.repository.BlogRepository;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.SignalType;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
+
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * @author <a href="luxueneng@baidu.com">luxueneng</a>

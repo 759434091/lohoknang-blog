@@ -4,8 +4,10 @@ import blog.lohoknang.constant.FindType;
 import blog.lohoknang.entity.Blog;
 import blog.lohoknang.exc.InvalidParameterException;
 import blog.lohoknang.service.BlogService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -21,6 +23,7 @@ import java.util.stream.Stream;
  * @author <a href="luxueneng@baidu.com">luxueneng</a>
  * @since 2019-04-23
  */
+@Slf4j
 @Component
 public class BlogControlHandler {
     @Resource
@@ -30,8 +33,9 @@ public class BlogControlHandler {
         return Mono
                 .just("id")
                 .map(serverRequest::pathVariable)
-                .map(blogService::getBlog)
-                .flatMap(blogMono -> ServerResponse.ok().body(blogMono, Blog.class));
+                .flatMap(blogService::getBlog)
+                .map(BodyInserters::fromObject)
+                .flatMap(it -> ServerResponse.ok().body(it));
     }
 
     public Mono<ServerResponse> getBlogIntro(ServerRequest serverRequest) {
@@ -64,12 +68,8 @@ public class BlogControlHandler {
 
         return Mono.just(typeKey)
                 .map(queryMap::getFirst)
-                .map(FindType::getType)
-                .doOnNext(value -> {
-                    if (value == null) {
-                        throw new InvalidParameterException("invalid type=" + queryMap.getFirst(typeKey));
-                    }
-                })
+                .flatMap(it -> Mono.justOrEmpty(FindType.getType(it)))
+                .switchIfEmpty(Mono.error(new InvalidParameterException("invalid type=" + queryMap.getFirst(typeKey))))
                 .map(value -> {
                     switch (value) {
                         case RAW:
@@ -88,21 +88,24 @@ public class BlogControlHandler {
                             throw new InvalidParameterException("invalid type=" + value);
                     }
                 })
-                .flatMap(flux -> ServerResponse.ok().body(flux, Blog.class));
+                .map(it -> BodyInserters.fromPublisher(it, Blog.class))
+                .flatMap(it -> ServerResponse.ok().body(it));
     }
 
     public Mono<ServerResponse> getTopCategories(ServerRequest serverRequest) {
         return getTopParam(serverRequest)
                 .flatMapMany(blogService::getTopCategories)
                 .collectList()
-                .flatMap(it -> ServerResponse.ok().syncBody(it));
+                .map(BodyInserters::fromObject)
+                .flatMap(it -> ServerResponse.ok().body(it));
     }
 
     public Mono<ServerResponse> getTopDates(ServerRequest serverRequest) {
         return getTopParam(serverRequest)
                 .flatMapMany(blogService::getTopDates)
                 .collectList()
-                .flatMap(it -> ServerResponse.ok().syncBody(it));
+                .map(BodyInserters::fromObject)
+                .flatMap(it -> ServerResponse.ok().body(it));
     }
 
     @SuppressWarnings("SpellCheckingInspection")
@@ -110,7 +113,8 @@ public class BlogControlHandler {
         return getTopParam(serverRequest)
                 .flatMapMany(blogService::getTopUpdateds)
                 .collectList()
-                .flatMap(it -> ServerResponse.ok().syncBody(it));
+                .map(BodyInserters::fromObject)
+                .flatMap(it -> ServerResponse.ok().body(it));
     }
 
     private LocalDateTime[] getValidDateTime(String dateStr) {

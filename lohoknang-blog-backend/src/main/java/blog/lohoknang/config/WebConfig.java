@@ -1,25 +1,27 @@
 package blog.lohoknang.config;
 
-import javax.annotation.Resource;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.config.CorsRegistry;
-import org.springframework.web.reactive.config.WebFluxConfigurer;
-import org.springframework.web.reactive.function.server.RouterFunction;
-import org.springframework.web.reactive.function.server.RouterFunctions;
-import org.springframework.web.reactive.function.server.ServerResponse;
-
 import blog.lohoknang.controller.BlogControlHandler;
 import blog.lohoknang.controller.CommentCorsControlHandler;
 import blog.lohoknang.controller.RobotControlHandler;
 import blog.lohoknang.exc.InvalidParameterException;
 import blog.lohoknang.filter.RobotFilter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.config.CorsRegistry;
+import org.springframework.web.reactive.config.WebFluxConfigurer;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
+
+import javax.annotation.Resource;
 
 /**
  * @author <a href="luxueneng@baidu.com">luxueneng</a>
  * @since 2019-04-23
  */
+@Slf4j
 @Configuration
 public class WebConfig implements WebFluxConfigurer {
     @Resource
@@ -47,7 +49,7 @@ public class WebConfig implements WebFluxConfigurer {
                 .GET("/gsitemap.xml", robotControlHandler::getGSiteMap)
                 .filter(robotFilter)
                 .onError(e -> (e instanceof InvalidParameterException),
-                        (e, req) -> ServerResponse.badRequest().syncBody(e.getMessage()))
+                        (e, req) -> ServerResponse.badRequest().body(BodyInserters.fromObject(e.getMessage())))
                 .build();
     }
 
