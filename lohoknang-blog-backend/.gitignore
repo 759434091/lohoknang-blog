@@ -27,5 +27,7 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
 /src/main/resources/application.properties
 /src/main/resources/application.yaml
+private.sh

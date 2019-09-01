@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
-USERNAME=root
-HOST=188.119.103.206
-PORT=22122
-WORK_DIR="/Users/xuenenglu/IdeaProjects/lohoknang-blog/lohoknang-blog-backend"
-TARGET_PATH="/Users/xuenenglu/IdeaProjects/lohoknang-blog/lohoknang-blog-backend/target/lohoknang-blog-backend-0.0.1-SNAPSHOT.jar"
-APP_DIR="/home/blog/blog-backend"
-KEY_PATH="/Users/xuenenglu/.ssh/id_rsa"
-MVN_BIN="/Users/xuenenglu/IdeaProjects/lohoknang-blog/lohoknang-blog-backend/mvnw"
+USERNAME=""
+HOST=""
+PORT=""
+WORK_DIR=""
+TARGET_PATH=""
+APP_DIR=""
+KEY_PATH=""
+MVN_BIN=""
 
+source private.sh
 
 cd ${WORK_DIR} || exit
 
