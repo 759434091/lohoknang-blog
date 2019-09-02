@@ -4,15 +4,22 @@
       <el-main v-if="blog != null">
         <div class="blog-title" v-text="blog.title"></div>
         <div class="blog-content">
-          <div
-            class="blog-content-info"
-            v-text="
-              `${blog.author} | ${blog.category} |
+          <div class="blog-content-info">
+            <span
+              v-text="
+                `${blog.author} | ${blog.category} |
       ${new Date(blog.createdAt).toLocaleString()} |
       ${new Date(blog.updatedAt).toLocaleString()} |
       ${blog.viewNum} 阅读`
-            "
-          ></div>
+              "
+            ></span>
+            <span v-if="this.auth != null">
+              |
+              <el-button class="blog-content-edit" type="text" @click="edit"
+                >编辑</el-button
+              >
+            </span>
+          </div>
           <div v-html="marked" v-highlight></div>
         </div>
         <el-footer class="blog-footer">
@@ -32,6 +39,7 @@
 
 <script>
 import marked from "marked";
+import storage from "../plugins/storage";
 
 marked.setOptions({
   breaks: true
@@ -45,6 +53,11 @@ export default {
       marked: ""
     };
   },
+  computed: {
+    auth() {
+      return this.$store.state.auth;
+    }
+  },
   created() {
     const id = this.$route.params.id;
     this.$http
@@ -56,6 +69,16 @@ export default {
       .catch(err => {
         this.$message.error(err);
       });
+  },
+  methods: {
+    edit() {
+      localStorage.setItem(storage.titleKey, this.blog.title);
+      localStorage.setItem(storage.categoryKey, this.blog.category);
+      localStorage.setItem(storage.authorKey, this.blog.author);
+      localStorage.setItem(storage.contentKey, this.blog.content);
+      localStorage.setItem(storage.idKey, this.blog.id);
+      this.$router.push(`/editor?id=${this.blog.id}`);
+    }
   }
 };
 </script>
@@ -85,8 +108,12 @@ export default {
   color: #606266;
 }
 
-.blog-content-info {
+.blog-content-info span {
   color: #909399;
+  font-size: 13px;
+}
+
+.blog-content-edit {
   font-size: 13px;
 }
 
