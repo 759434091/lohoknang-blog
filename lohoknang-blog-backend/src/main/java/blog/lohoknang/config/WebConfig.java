@@ -10,8 +10,9 @@ import blog.lohoknang.filter.SecureFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.config.CorsRegistry;
-import org.springframework.web.reactive.config.WebFluxConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
@@ -24,8 +25,9 @@ import javax.annotation.Resource;
  * @since 2019-04-23
  */
 @Slf4j
+@EnableWebFlux
 @Configuration
-public class WebConfig implements WebFluxConfigurer {
+public class WebConfig {
     @Resource
     private BlogControlHandler blogControlHandler;
     @Resource
@@ -53,6 +55,7 @@ public class WebConfig implements WebFluxConfigurer {
                 .GET("/rb/blogs/{id}", robotControlHandler::getBlog)
                 .GET("/sitemap.xml", robotControlHandler::getSiteMap)
                 .GET("/gsitemap.xml", robotControlHandler::getGSiteMap)
+                .POST("/authenticate", (severRequest) -> ServerResponse.accepted().build())
                 .filter(robotFilter)
                 .filter(secureFilter)
                 .onError(e -> (e instanceof InvalidParameterException),
@@ -62,12 +65,8 @@ public class WebConfig implements WebFluxConfigurer {
                 .build();
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("*")
-                .allowedHeaders("*")
-                .allowCredentials(true);
+    @Bean
+    CorsWebFilter corsFilter() {
+        return new CorsWebFilter(exchange -> new CorsConfiguration().applyPermitDefaultValues());
     }
 }

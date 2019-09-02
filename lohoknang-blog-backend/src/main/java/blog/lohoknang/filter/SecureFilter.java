@@ -42,6 +42,7 @@ public class SecureFilter implements HandlerFilterFunction<ServerResponse, Serve
     {
         secureList.add(Tuples.of(HttpMethod.POST, pathPatternParser.parse("/blogs")));
         secureList.add(Tuples.of(HttpMethod.PUT, pathPatternParser.parse("/blogs/{id}")));
+        secureList.add(Tuples.of(HttpMethod.POST, pathPatternParser.parse("/authenticate")));
     }
 
     @Override
