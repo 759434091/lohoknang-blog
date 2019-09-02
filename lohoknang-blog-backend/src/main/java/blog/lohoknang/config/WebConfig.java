@@ -8,6 +8,7 @@ import blog.lohoknang.exc.NotFoundException;
 import blog.lohoknang.filter.RobotFilter;
 import blog.lohoknang.filter.SecureFilter;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -65,6 +66,12 @@ public class WebConfig {
 
     @Bean
     CorsWebFilter corsFilter() {
-        return new CorsWebFilter(exchange -> new CorsConfiguration().applyPermitDefaultValues());
+        return new CorsWebFilter(exchange -> {
+            val configuration = new CorsConfiguration();
+            configuration.addAllowedHeader("*");
+            configuration.addAllowedMethod("*");
+            configuration.addAllowedOrigin("*");
+            return configuration;
+        });
     }
 }
