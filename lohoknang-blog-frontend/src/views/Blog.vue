@@ -77,7 +77,7 @@ export default {
       localStorage.setItem(storage.authorKey, this.blog.author);
       localStorage.setItem(storage.contentKey, this.blog.content);
       localStorage.setItem(storage.idKey, this.blog.id);
-      this.$router.push(`/editor?id=${this.blog.id}`);
+      this.$router.push("/editor");
     }
   }
 };

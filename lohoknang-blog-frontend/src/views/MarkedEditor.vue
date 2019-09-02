@@ -24,6 +24,8 @@
             ></el-form-item>
             <el-form-item>
               <el-button type="primary">提交</el-button>
+              <el-button type="info" @click="clearId">清除ID</el-button>
+              <el-button type="warning" @click="reset">重置</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -92,7 +94,7 @@ export default {
   data() {
     return {
       form: {
-        id: null,
+        id: "",
         title: "",
         category: "",
         author: "a9043",
@@ -106,18 +108,7 @@ export default {
       return;
     }
 
-    const queryId = this.$route.query.id;
-    const id = localStorage.getItem(storage.idKey);
-
-    if (id != null && id !== queryId) {
-      this.$router.push(`/editor?id=${id}`);
-      return;
-    }
-
     this.getLocalBlog();
-    if (queryId != null && queryId !== "") {
-      this.form.id = queryId;
-    }
   },
   beforeDestroy() {
     localStorage.setItem(storage.titleKey, this.form.title);
@@ -128,6 +119,10 @@ export default {
   },
   methods: {
     getLocalBlog() {
+      const id = localStorage.getItem(storage.idKey);
+      if (id != null) {
+        this.form.id = id;
+      }
       const title = localStorage.getItem(storage.titleKey);
       if (title != null) {
         this.form.title = title;
@@ -147,6 +142,18 @@ export default {
       if (content != null) {
         this.form.content = content;
       }
+    },
+    clearId() {
+      this.form.id = "";
+    },
+    reset() {
+      this.form = {
+        id: "",
+        title: "",
+        category: "",
+        author: "a9043",
+        content: ""
+      };
     }
   }
 };
