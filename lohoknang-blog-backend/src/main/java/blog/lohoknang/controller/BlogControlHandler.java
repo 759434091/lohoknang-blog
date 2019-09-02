@@ -2,17 +2,24 @@ package blog.lohoknang.controller;
 
 import blog.lohoknang.constant.FindType;
 import blog.lohoknang.entity.Blog;
+import blog.lohoknang.entity.InsertBlogGroup;
+import blog.lohoknang.entity.UpdateBlogGroup;
 import blog.lohoknang.exc.InvalidParameterException;
 import blog.lohoknang.service.BlogService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
@@ -28,6 +35,71 @@ import java.util.stream.Stream;
 public class BlogControlHandler {
     @Resource
     private BlogService blogService;
+
+    @Resource
+    private LocalValidatorFactoryBean validatorFactoryBean;
+
+    public Mono<ServerResponse> insertBlog(ServerRequest serverRequest) {
+        return serverRequest
+                .bodyToMono(Blog.class)
+                .<Blog>handle((blog, synchronousSink) -> {
+                    val constraintViolations = validatorFactoryBean.validate(blog, InsertBlogGroup.class);
+                    if (constraintViolations.size() != 0) {
+                        synchronousSink.error(
+                                new InvalidParameterException(
+                                        constraintViolations.toString()
+                                )
+                        );
+                    } else {
+                        synchronousSink.next(blog);
+                        synchronousSink.complete();
+                    }
+                })
+                .doOnNext(it -> it.setViewNum(0))
+                .doOnNext(it -> it.setIntro(
+                        it
+                                .getContent()
+                                .substring(
+                                        0,
+                                        Math.min(110, it.getContent().length())
+                                )
+                        )
+                )
+                .flatMap(blogService::insertBlog)
+                .map(Blog::getId)
+                .map(ObjectId::toHexString)
+                .flatMap(it -> ServerResponse.created(URI.create(it)).build());
+    }
+
+    public Mono<ServerResponse> updateBlog(ServerRequest serverRequest) {
+        return serverRequest
+                .bodyToMono(Blog.class)
+                .<Blog>handle((blog, synchronousSink) -> {
+                    val constraintViolations = validatorFactoryBean.validate(blog, UpdateBlogGroup.class);
+                    if (constraintViolations.size() != 0) {
+                        synchronousSink.error(
+                                new InvalidParameterException(
+                                        constraintViolations.toString()
+                                )
+                        );
+                    } else {
+                        synchronousSink.next(blog);
+                        synchronousSink.complete();
+                    }
+                })
+                .doOnNext(it -> it.setIntro(
+                        it
+                                .getContent()
+                                .substring(
+                                        0,
+                                        Math.min(110, it.getContent().length())
+                                )
+                        )
+                )
+                .map(blogService::updateBlog)
+                .map(BodyInserters::fromObject)
+                .flatMap(it -> ServerResponse.accepted().body(it));
+    }
 
     public Mono<ServerResponse> getBlog(ServerRequest serverRequest) {
         return Mono

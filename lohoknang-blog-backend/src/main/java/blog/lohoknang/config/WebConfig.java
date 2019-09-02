@@ -4,6 +4,7 @@ import blog.lohoknang.controller.BlogControlHandler;
 import blog.lohoknang.controller.CommentCorsControlHandler;
 import blog.lohoknang.controller.RobotControlHandler;
 import blog.lohoknang.exc.InvalidParameterException;
+import blog.lohoknang.exc.NotFoundException;
 import blog.lohoknang.filter.RobotFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +38,9 @@ public class WebConfig implements WebFluxConfigurer {
     @Bean
     RouterFunction<ServerResponse> routerFunction() {
         return RouterFunctions.route()
+                .PUT("/blogs/{id}", blogControlHandler::insertBlog)
                 .GET("/blogs/{id}", blogControlHandler::getBlog)
+                .POST("/blogs", blogControlHandler::insertBlog)
                 .GET("/blogs", blogControlHandler::getBlogIntro)
                 .GET("/categories", blogControlHandler::getTopCategories)
                 .GET("/dates", blogControlHandler::getTopDates)
@@ -50,6 +53,8 @@ public class WebConfig implements WebFluxConfigurer {
                 .filter(robotFilter)
                 .onError(e -> (e instanceof InvalidParameterException),
                         (e, req) -> ServerResponse.badRequest().body(BodyInserters.fromObject(e.getMessage())))
+                .onError(e -> (e instanceof NotFoundException),
+                        (e, req) -> ServerResponse.notFound().build())
                 .build();
     }
 

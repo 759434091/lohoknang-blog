@@ -2,6 +2,7 @@ package blog.lohoknang.service;
 
 import blog.lohoknang.entity.Blog;
 import blog.lohoknang.exc.InvalidParameterException;
+import blog.lohoknang.exc.NotFoundException;
 import blog.lohoknang.repository.BlogRepository;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -39,6 +40,24 @@ public class BlogService {
     private Scheduler statisticScheduler = Schedulers.newSingle("statistic");
 
     private ConcurrentSkipListSet<ObjectId> idSet = new ConcurrentSkipListSet<>();
+
+    public Mono<Blog> insertBlog(Blog blog) {
+        return blogRepository.save(blog);
+    }
+
+
+    public Mono<Blog> updateBlog(Blog blog) {
+        return blogRepository
+                .findById(blog.getId())
+                .doOnNext(it -> {
+                    it.setTitle(blog.getTitle());
+                    it.setCategory(blog.getCategory());
+                    it.setIntro(blog.getIntro());
+                    it.setContent(blog.getContent());
+                })
+                .flatMap(blogRepository::save)
+                .switchIfEmpty(Mono.error(new NotFoundException(blog.getId() + " not found")));
+    }
 
     public Mono<Blog> getBlog(@NonNull String idStr) {
         return Mono
