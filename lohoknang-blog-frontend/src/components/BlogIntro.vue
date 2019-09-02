@@ -18,15 +18,22 @@
       </div>
     </div>
     <div class="blog-intro-content" v-else>
-      <div
-        class="blog-intro-content-info"
-        v-text="
-          `${blog.author} | ${blog.category} |
+      <div class="blog-intro-content-info">
+        <span
+          v-text="
+            `${blog.author} | ${blog.category} |
       ${new Date(blog.createdAt).toLocaleString()} |
       ${new Date(blog.updatedAt).toLocaleString()} |
       ${blog.viewNum} 阅读`
-        "
-      ></div>
+          "
+        ></span>
+        <span v-if="this.auth != null">
+          |
+          <el-button type="text" class="blog-intro-content-edit" @click="edit"
+            >编辑</el-button
+          ></span
+        >
+      </div>
       <div v-html="blogDetail.content" v-highlight></div>
       <div class="blog-intro-content-footer">
         <el-row type="flex" justify="end" :class="buttonClass">
@@ -46,6 +53,7 @@
 
 <script>
 import marked from "marked";
+import storage from "../plugins/storage";
 import BottomBar from "./BottomBar";
 
 marked.setOptions({
@@ -58,6 +66,11 @@ export default {
     blog: Object
   },
   components: { BottomBar },
+  computed: {
+    auth() {
+      return this.$store.state.auth;
+    }
+  },
   data() {
     return {
       blogDetail: null,
@@ -88,6 +101,14 @@ export default {
     },
     handlebar(dataset, flag) {
       this.bar.show = !flag;
+    },
+    edit() {
+      localStorage.setItem(storage.titleKey, this.blogDetail.title);
+      localStorage.setItem(storage.categoryKey, this.blogDetail.category);
+      localStorage.setItem(storage.authorKey, this.blogDetail.author);
+      localStorage.setItem(storage.contentKey, this.blogDetail.content);
+      localStorage.setItem(storage.idKey, this.blogDetail.id);
+      this.$router.push(`/editor?id=${this.blogDetail.id}`);
     }
   }
 };
@@ -134,9 +155,13 @@ export default {
   color: #606266;
 }
 
-.blog-intro-content-info {
+.blog-intro-content-info span {
   color: #909399;
-  font-size: 13px;
+  font-size: 12px;
+}
+
+.blog-intro-content-edit {
+  font-size: 12px;
 }
 
 .blog-intro-content-footer {

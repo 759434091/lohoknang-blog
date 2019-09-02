@@ -51,8 +51,9 @@ export default {
             Authorization: `Basic ${auth}`
           }
         })
-        .then(res => {
-          this.$message.success(res);
+        .then(() => {
+          this.$store.commit("setAuth", `Basic ${auth}`);
+          this.$router.push("/");
         })
         .catch(err => {
           this.$message.error(err);

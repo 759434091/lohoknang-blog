@@ -4,6 +4,9 @@
       <el-row type="flex" gutter="10" class="editor-row">
         <el-col :span="24">
           <el-form ref="form" :model="form" size="mini" :inline="true">
+            <el-form-item label="ID">
+              <el-input v-model="form.id" :disabled="true"></el-input
+            ></el-form-item>
             <el-form-item label="标题">
               <el-input v-model="form.title" placeholder="请输入标题"></el-input
             ></el-form-item>
@@ -56,40 +59,40 @@
 
 <script>
 import marked from "marked";
+import storage from "../plugins/storage";
 
 marked.setOptions({
   breaks: true
 });
-
-const titleKey = "blog-editor-form-title";
-const categoryKey = "blog-editor-form-category";
-const authorKey = "blog-editor-form-author";
-const contentKey = "blog-editor-form-content";
 
 export default {
   name: "MarkedEditor",
   computed: {
     markedStr() {
       return marked(this.form.content);
+    },
+    auth() {
+      return this.$store.state.auth;
     }
   },
   watch: {
     "form.title"(newTitle) {
-      localStorage.setItem(titleKey, newTitle);
+      localStorage.setItem(storage.titleKey, newTitle);
     },
     "form.category"(newCategory) {
-      localStorage.setItem(categoryKey, newCategory);
+      localStorage.setItem(storage.categoryKey, newCategory);
     },
     "form.author"(newAuthor) {
-      localStorage.setItem(authorKey, newAuthor);
+      localStorage.setItem(storage.authorKey, newAuthor);
     },
     "form.content"(newContent) {
-      localStorage.setItem(contentKey, newContent);
+      localStorage.setItem(storage.contentKey, newContent);
     }
   },
   data() {
     return {
       form: {
+        id: null,
         title: "",
         category: "",
         author: "a9043",
@@ -98,32 +101,49 @@ export default {
     };
   },
   created() {
+    if (this.auth == null) {
+      this.$router.push("/");
+      return;
+    }
+
+    const queryId = this.$route.query.id;
+    const id = localStorage.getItem(storage.idKey);
+
+    if (id != null && id !== queryId) {
+      this.$router.push(`/editor?id=${id}`);
+      return;
+    }
+
     this.getLocalBlog();
+    if (queryId != null && queryId !== "") {
+      this.form.id = queryId;
+    }
   },
   beforeDestroy() {
-    localStorage.setItem(titleKey, this.form.title);
-    localStorage.setItem(categoryKey, this.form.category);
-    localStorage.setItem(authorKey, this.form.author);
-    localStorage.setItem(contentKey, this.form.content);
+    localStorage.setItem(storage.titleKey, this.form.title);
+    localStorage.setItem(storage.categoryKey, this.form.category);
+    localStorage.setItem(storage.authorKey, this.form.author);
+    localStorage.setItem(storage.contentKey, this.form.content);
+    localStorage.setItem(storage.idKey, this.form.id);
   },
   methods: {
     getLocalBlog() {
-      const title = localStorage.getItem(titleKey);
+      const title = localStorage.getItem(storage.titleKey);
       if (title != null) {
         this.form.title = title;
       }
 
-      const category = localStorage.getItem(categoryKey);
+      const category = localStorage.getItem(storage.categoryKey);
       if (category != null) {
         this.form.category = category;
       }
 
-      const author = localStorage.getItem(authorKey);
+      const author = localStorage.getItem(storage.authorKey);
       if (author != null) {
         this.form.author = author;
       }
 
-      const content = localStorage.getItem(contentKey);
+      const content = localStorage.getItem(storage.contentKey);
       if (content != null) {
         this.form.content = content;
       }

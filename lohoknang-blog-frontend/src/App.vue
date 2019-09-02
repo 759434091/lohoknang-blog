@@ -24,6 +24,13 @@
               <el-menu-item class="app-menu-item" index="/about">
                 <a href="/#/about" class="app-menu-link">ABOUT</a>
               </el-menu-item>
+              <el-menu-item
+                class="app-menu-item"
+                index="/editor"
+                v-if="this.auth != null"
+              >
+                <a href="/#/editor" class="app-menu-link">EDITOR</a>
+              </el-menu-item>
             </el-menu>
           </el-col>
         </el-row>
@@ -41,6 +48,11 @@ export default {
   watch: {
     $route(newRoute) {
       this.activeIndex = newRoute.path;
+    }
+  },
+  computed: {
+    auth() {
+      return this.$store.state.auth;
     }
   },
   data() {
