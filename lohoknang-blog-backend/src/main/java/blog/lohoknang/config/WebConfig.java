@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
-import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
@@ -25,7 +24,6 @@ import javax.annotation.Resource;
  * @since 2019-04-23
  */
 @Slf4j
-@EnableWebFlux
 @Configuration
 public class WebConfig {
     @Resource

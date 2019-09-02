@@ -15,13 +15,13 @@
               </el-form-item>
               <el-form-item label="GITHUB">
                 <el-link href="https://github.com/759434091"
-                  >HokNang_Loue</el-link
-                >
+                  >HokNang_Loue
+                </el-link>
               </el-form-item>
               <el-form-item label="MAIL">
                 <el-link href="mailto:zzz13129180808@Gmail.com"
-                  >zzz13129180808@Gmail.com</el-link
-                >
+                  >zzz13129180808@Gmail.com
+                </el-link>
               </el-form-item>
             </el-form>
           </el-col>
@@ -29,6 +29,7 @@
             <div class="about-img-container">
               <el-image fit="contain" :src="`${publicPath}blog-logo.jpeg`">
               </el-image>
+              <div class="login-box" @click="loginClick"></div>
             </div>
           </el-col>
         </el-row>
@@ -45,17 +46,47 @@
           2019/08/27
         </el-row>
       </el-main>
+      <LoginBox :visible="loginBoxVisible" @close="closeLoginBox"></LoginBox>
     </el-container>
   </div>
 </template>
 
 <script>
+import LoginBox from "../components/LoginBox";
 export default {
   name: "About",
+  components: { LoginBox },
   data() {
     return {
-      publicPath: process.env.BASE_URL
+      publicPath: process.env.BASE_URL,
+      timer: null,
+      click: 0,
+      loginBoxVisible: false
     };
+  },
+  methods: {
+    loginClick() {
+      if (this.timer == null) {
+        this.timer = setTimeout(() => {
+          this.timer = null;
+          this.click = 0;
+        }, 800);
+      }
+
+      this.click += 1;
+      this.$message({
+        duration: 300,
+        dangerouslyUseHTMLString: true,
+        message: `<i class="el-icon-bell"></i>`
+      });
+
+      if (this.click === 3) {
+        this.loginBoxVisible = true;
+      }
+    },
+    closeLoginBox() {
+      this.loginBoxVisible = false;
+    }
   }
 };
 </script>
@@ -104,8 +135,18 @@ export default {
 }
 
 .about-img-container {
+  position: relative;
   margin: 0 auto;
   width: 150px;
   height: 150px;
+}
+
+.login-box {
+  position: absolute;
+  top: 90px;
+  left: 90px;
+  width: 10px;
+  height: 10px;
+  background-color: transparent;
 }
 </style>
