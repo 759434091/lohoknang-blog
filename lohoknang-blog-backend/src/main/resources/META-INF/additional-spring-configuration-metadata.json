@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "blog.lohoknang.username",
+      "type": "java.lang.String",
+      "description": "Description for blog.lohoknang.username."
+    },
+    {
+      "name": "blog.lohoknang.password",
+      "type": "java.lang.String",
+      "description": "Description for blog.lohoknang.password."
+    }
+  ]
+}

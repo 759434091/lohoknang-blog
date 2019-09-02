@@ -1,17 +1,15 @@
 package blog.lohoknang.filter;
 
-import java.util.stream.Stream;
-
-import javax.annotation.Resource;
-
+import blog.lohoknang.controller.RobotControlHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.HandlerFilterFunction;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-
-import blog.lohoknang.controller.RobotControlHandler;
 import reactor.core.publisher.Mono;
+
+import javax.annotation.Resource;
+import java.util.stream.Stream;
 
 /**
  * @author <a href="luxueneng@baidu.com">luxueneng</a>
@@ -24,7 +22,7 @@ public class RobotFilter implements HandlerFilterFunction<ServerResponse, Server
 
     @Override
     public Mono<ServerResponse> filter(ServerRequest request, HandlerFunction<ServerResponse> next) {
-        String userAgent = String.join("", request
+        String userAgent = String.join("; ", request
                 .headers()
                 .header("User-Agent"));
         String robot = "robot";

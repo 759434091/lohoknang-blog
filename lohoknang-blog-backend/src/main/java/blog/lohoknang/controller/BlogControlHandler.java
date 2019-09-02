@@ -6,7 +6,6 @@ import blog.lohoknang.entity.InsertBlogGroup;
 import blog.lohoknang.entity.UpdateBlogGroup;
 import blog.lohoknang.exc.InvalidParameterException;
 import blog.lohoknang.service.BlogService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.bson.types.ObjectId;
@@ -42,6 +41,7 @@ public class BlogControlHandler {
     public Mono<ServerResponse> insertBlog(ServerRequest serverRequest) {
         return serverRequest
                 .bodyToMono(Blog.class)
+                .switchIfEmpty(Mono.error(new InvalidParameterException("Invalid blog request body")))
                 .<Blog>handle((blog, synchronousSink) -> {
                     val constraintViolations = validatorFactoryBean.validate(blog, InsertBlogGroup.class);
                     if (constraintViolations.size() != 0) {
@@ -52,7 +52,6 @@ public class BlogControlHandler {
                         );
                     } else {
                         synchronousSink.next(blog);
-                        synchronousSink.complete();
                     }
                 })
                 .doOnNext(it -> it.setViewNum(0))
@@ -74,6 +73,7 @@ public class BlogControlHandler {
     public Mono<ServerResponse> updateBlog(ServerRequest serverRequest) {
         return serverRequest
                 .bodyToMono(Blog.class)
+                .switchIfEmpty(Mono.error(new InvalidParameterException("Invalid blog request body")))
                 .<Blog>handle((blog, synchronousSink) -> {
                     val constraintViolations = validatorFactoryBean.validate(blog, UpdateBlogGroup.class);
                     if (constraintViolations.size() != 0) {
@@ -96,9 +96,10 @@ public class BlogControlHandler {
                                 )
                         )
                 )
-                .map(blogService::updateBlog)
-                .map(BodyInserters::fromObject)
-                .flatMap(it -> ServerResponse.accepted().body(it));
+                .flatMap(blogService::updateBlog)
+                .map(Blog::getId)
+                .map(ObjectId::toHexString)
+                .flatMap(it -> ServerResponse.created(URI.create(it)).build());
     }
 
     public Mono<ServerResponse> getBlog(ServerRequest serverRequest) {

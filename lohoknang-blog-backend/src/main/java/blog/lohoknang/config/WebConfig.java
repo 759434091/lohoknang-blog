@@ -6,6 +6,7 @@ import blog.lohoknang.controller.RobotControlHandler;
 import blog.lohoknang.exc.InvalidParameterException;
 import blog.lohoknang.exc.NotFoundException;
 import blog.lohoknang.filter.RobotFilter;
+import blog.lohoknang.filter.SecureFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,12 +34,14 @@ public class WebConfig implements WebFluxConfigurer {
     private RobotControlHandler robotControlHandler;
     @Resource
     private RobotFilter robotFilter;
+    @Resource
+    private SecureFilter secureFilter;
 
     @SuppressWarnings("SpellCheckingInspection")
     @Bean
     RouterFunction<ServerResponse> routerFunction() {
         return RouterFunctions.route()
-                .PUT("/blogs/{id}", blogControlHandler::insertBlog)
+                .PUT("/blogs/{id}", blogControlHandler::updateBlog)
                 .GET("/blogs/{id}", blogControlHandler::getBlog)
                 .POST("/blogs", blogControlHandler::insertBlog)
                 .GET("/blogs", blogControlHandler::getBlogIntro)
@@ -51,6 +54,7 @@ public class WebConfig implements WebFluxConfigurer {
                 .GET("/sitemap.xml", robotControlHandler::getSiteMap)
                 .GET("/gsitemap.xml", robotControlHandler::getGSiteMap)
                 .filter(robotFilter)
+                .filter(secureFilter)
                 .onError(e -> (e instanceof InvalidParameterException),
                         (e, req) -> ServerResponse.badRequest().body(BodyInserters.fromObject(e.getMessage())))
                 .onError(e -> (e instanceof NotFoundException),
