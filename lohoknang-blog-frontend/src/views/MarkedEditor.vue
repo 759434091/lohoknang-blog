@@ -3,27 +3,33 @@
     <el-main class="editor-main">
       <el-row type="flex" gutter="10" class="editor-row">
         <el-col :span="24">
-          <el-form ref="form" :model="form" size="mini" :inline="true">
+          <el-form
+            ref="form"
+            :rules="rules"
+            :model="form"
+            size="mini"
+            :inline="true"
+          >
             <el-form-item label="ID">
               <el-input v-model="form.id" :disabled="true"></el-input
             ></el-form-item>
-            <el-form-item label="标题">
+            <el-form-item label="标题" prop="title">
               <el-input v-model="form.title" placeholder="请输入标题"></el-input
             ></el-form-item>
-            <el-form-item label="分类">
+            <el-form-item label="分类" title="category" prop="category">
               <el-input
                 v-model="form.category"
                 placeholder="请输入分类"
               ></el-input
             ></el-form-item>
-            <el-form-item label="作者">
+            <el-form-item label="作者" prop="author">
               <el-input
                 v-model="form.author"
                 placeholder="请输入作者"
               ></el-input
             ></el-form-item>
             <el-form-item>
-              <el-button type="primary">提交</el-button>
+              <el-button type="primary" @click="submit">提交</el-button>
               <el-button type="info" @click="clearId">清除ID</el-button>
               <el-button type="warning" @click="reset">重置</el-button>
             </el-form-item>
@@ -38,13 +44,17 @@
       >
         <el-col :span="12">
           <div class="editor-content">
-            <el-input
-              type="textarea"
-              :autosize="{ minRows: 100 }"
-              placeholder="请输入内容"
-              v-model="form.content"
-            >
-            </el-input>
+            <el-form ref="contentForm" :rules="rules" :model="form">
+              <el-form-item prop="content">
+                <el-input
+                  type="textarea"
+                  :autosize="{ minRows: 100 }"
+                  placeholder="请输入内容"
+                  v-model="form.content"
+                >
+                </el-input>
+              </el-form-item>
+            </el-form>
           </div>
         </el-col>
         <el-col :span="12" class="editor-preview">
@@ -99,6 +109,24 @@ export default {
         category: "",
         author: "a9043",
         content: ""
+      },
+      rules: {
+        category: [
+          { required: true, message: "请输入分类", trigger: "blur" },
+          { min: 4, max: 10, message: "长度在 4 到 10 个字符", trigger: "blur" }
+        ],
+        author: [
+          { required: true, message: "请输入作者", trigger: "blur" },
+          { min: 4, max: 10, message: "长度在 4 到 10 个字符", trigger: "blur" }
+        ],
+        title: [
+          { required: true, message: "请输入标题", trigger: "blur" },
+          { min: 5, max: 60, message: "长度在 5 到 60 个字符", trigger: "blur" }
+        ],
+        content: [
+          { required: true, message: "请输入内容", trigger: "blur" },
+          { min: 140, message: "长度在必须大于140个字符", trigger: "blur" }
+        ]
       }
     };
   },
@@ -154,6 +182,77 @@ export default {
         author: "a9043",
         content: ""
       };
+    },
+    submit() {
+      if (this.form.id == null) {
+        this.insert();
+        return;
+      }
+
+      this.update();
+    },
+    insert() {
+      this.$refs.form.validate(valid => {
+        if (!valid) {
+          return;
+        }
+
+        this.$refs.contentForm.validate(valid => {
+          if (!valid) {
+            return;
+          }
+
+          const blog = {
+            title: this.form.title,
+            category: this.form.category,
+            author: this.form.author,
+            content: this.form.content
+          };
+
+          this.$http
+            .post("/blogs", blog, {
+              Authorization: this.auth
+            })
+            .then(res => {
+              this.$message.success(`发布成功 ${res.data}`);
+            })
+            .catch(err => {
+              this.$message.success(`发布失败 ${err}`);
+            });
+        });
+      });
+    },
+    update() {
+      this.$refs.form.validate(valid => {
+        if (!valid) {
+          return;
+        }
+
+        this.$refs.contentForm.validate(valid => {
+          if (!valid) {
+            return;
+          }
+
+          const blog = {
+            id: this.form.id,
+            title: this.form.title,
+            category: this.form.category,
+            author: this.form.author,
+            content: this.form.content
+          };
+
+          this.$http
+            .put(`/blogs/${blog.id}`, blog, {
+              Authorization: this.auth
+            })
+            .then(res => {
+              this.$message.success(`修改成功 ${res.data}`);
+            })
+            .catch(err => {
+              this.$message.success(`修改失败 ${err}`);
+            });
+        });
+      });
     }
   }
 };
@@ -174,6 +273,7 @@ export default {
 
 .editor-content,
 .editor-preview-marked {
+  word-wrap: break-word;
   padding: 20px;
 }
 </style>
