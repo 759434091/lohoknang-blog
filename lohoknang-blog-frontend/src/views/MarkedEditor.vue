@@ -215,6 +215,7 @@ export default {
             })
             .then(res => {
               this.$message.success(`发布成功 ${res.data}`);
+              this.$router.push(`/?time=${new Date().toISOString()}`);
             })
             .catch(err => {
               this.$message.success(`发布失败 ${err}`);
@@ -247,6 +248,7 @@ export default {
             })
             .then(res => {
               this.$message.success(`修改成功 ${res.data}`);
+              this.$router.push(`/?time=${new Date().toISOString()}`);
             })
             .catch(err => {
               this.$message.success(`修改失败 ${err}`);
