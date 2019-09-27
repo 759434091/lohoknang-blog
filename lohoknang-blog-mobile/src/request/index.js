@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 axios.defaults.baseURL = 'https://api.lohoknang.blog/'
-axios.defaults.withCredentials = true
 
 async function getBlogs(page) {
     return await axios.get('/blogs', {

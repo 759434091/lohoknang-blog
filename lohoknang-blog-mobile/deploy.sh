@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
-USERNAME=root
-HOST=188.119.103.206
-PORT=22122
-WORK_DIR=/Users/xuenenglu/IdeaProjects/lohoknang-blog/lohoknang-blog-mobile/
-APP_DIR=/home/blog
-DIST_PKG="mobile-dist.tar.gz"
-KEY_PATH=/Users/xuenenglu/.ssh/id_rsa
+USERNAME=""
+HOST=""
+PORT=""
+WORK_DIR=""
+APP_DIR=""
+DIST_PKG=""
+KEY_PATH=""
+
+source private.sh
 
 cd ${WORK_DIR} || exit
 
