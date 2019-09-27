@@ -3,7 +3,7 @@
         <mu-container v-show="!loading">
             <h1>{{blogContent.title}}</h1>
             <p
-                    v-text="`分类 ${blogContent.type} |
+                    v-text="`分类 ${blogContent.category} |
                     作者 ${blogContent.author} |
                     发布于 ${new Date(blogContent.createdAt).toLocaleString()} |
                     最后修改于 ${new Date(blogContent.updatedAt).toLocaleString()} |
