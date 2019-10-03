@@ -1,5 +1,9 @@
 package blog.lohoknang.constant;
 
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
+
 /**
  * @author <a href="luxueneng@baidu.com">luxueneng</a>
  * @since 2019-04-23
@@ -10,18 +14,17 @@ public enum FindType {
      */
     RAW("raw"), DATE("date"), CATEGORY("category");
 
-    private final String value;
-
     FindType(String value) {
         this.value = value;
     }
 
-    public static FindType getType(String value) {
-        for (FindType findType : FindType.values()) {
-            if (findType.value.equals(value)) {
-                return findType;
-            }
-        }
-        return null;
+    private static FindType[] values = FindType.values();
+    private final String value;
+
+    public static Optional<FindType> getType(String value) {
+        return Arrays
+                .stream(values)
+                .filter(it -> Objects.equals(it.value, value))
+                .findFirst();
     }
 }

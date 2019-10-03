@@ -141,7 +141,8 @@ public class BlogControlHandler {
 
         return Mono.just(typeKey)
                 .map(queryMap::getFirst)
-                .flatMap(it -> Mono.justOrEmpty(FindType.getType(it)))
+                .map(FindType::getType)
+                .flatMap(Mono::justOrEmpty)
                 .switchIfEmpty(Mono.error(new InvalidParameterException("invalid type=" + queryMap.getFirst(typeKey))))
                 .map(value -> {
                     switch (value) {
