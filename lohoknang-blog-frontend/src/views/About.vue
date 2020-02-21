@@ -34,13 +34,11 @@
           </el-col>
         </el-row>
         <pre class="self-intro">
-  UESTC在读。实习刚离职，2020年应届生
+  UESTC在读, 准入职。
 
   全栈开发，熟悉 Vue 全家桶 + Spring Boot 全家桶。会点Node.JS写写爬虫之类好玩的。
 
-  会点微服务，会点RPC，会点响应式，甚至还想学点DDD……
-
-  算法极其乐色，满脑子架构系统。涉猎比较广泛，不定时更新。
+  算法极其乐色。涉猎比较广泛，不定时更新。
         </pre>
         <el-row justify="end" type="flex" class="self-intro">
           2019/08/27
