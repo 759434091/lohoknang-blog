@@ -30,4 +30,5 @@ HELP.md
 
 /src/main/resources/application.properties
 /src/main/resources/application.yaml
-private.sh
+private.*
+/venv
