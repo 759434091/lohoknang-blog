@@ -19,9 +19,9 @@
     <title>lohoknang-blog-mobile</title>
     <script>
         if (window.innerWidth > 1024) {
-            const pattern = /https:\/\/m\.lohoknang\.blog\/(\S*)/;
+            const pattern = /https:\/\/m\.lohoknang\.com\/(\S*)/;
             const strs = pattern.exec(window.location.href);
-            window.location.href = (strs == null || strs.length < 1) ? 'https://lohoknang.blog/' : 'https://lohoknang.blog/' + strs[1]
+            window.location.href = (strs == null || strs.length < 1) ? 'https://lohoknang.com/' : 'https://lohoknang.com/' + strs[1]
         }
 
         function downLoadCss() {

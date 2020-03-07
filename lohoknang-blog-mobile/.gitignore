@@ -22,4 +22,5 @@ yarn-error.log*
 /package-lock.json
 /mobile-dist/
 /mobile-dist.tar.gz
-/private.sh
+
+private.*
