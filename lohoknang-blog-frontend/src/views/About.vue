@@ -9,7 +9,7 @@
           <el-col :span="12">
             <el-form class="intro-form" size="medium" label-position="left">
               <el-form-item label="BLOG">
-                <el-link href="https://lohoknang.blog">
+                <el-link href="https://lohoknang.com">
                   LOHOKNANG.BLOG
                 </el-link>
               </el-form-item>
