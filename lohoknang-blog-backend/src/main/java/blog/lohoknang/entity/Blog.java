@@ -1,9 +1,13 @@
 package blog.lohoknang.entity;
 
-import java.time.LocalDateTime;
-
 import blog.lohoknang.util.ObjectIdDeserializer;
+import blog.lohoknang.util.ObjectIdSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,17 +15,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import blog.lohoknang.util.ObjectIdSerializer;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.time.LocalDateTime;
 
 /**
  * Blog PO
@@ -43,7 +39,7 @@ public class Blog {
     private ObjectId id;
 
     @NotNull(groups = InsertBlogGroup.class)
-    @Length(min = 4, max = 10, groups = {InsertBlogGroup.class, UpdateBlogGroup.class})
+    @Length(min = 2, max = 10, groups = {InsertBlogGroup.class, UpdateBlogGroup.class})
     private String category;
 
     @NotNull(groups = InsertBlogGroup.class)

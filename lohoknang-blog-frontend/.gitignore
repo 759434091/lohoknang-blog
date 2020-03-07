@@ -22,3 +22,4 @@ yarn-error.log*
 
 dist.tar.gz
 private.*
+/rewrite_resource.js
