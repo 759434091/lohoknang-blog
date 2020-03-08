@@ -38,19 +38,19 @@ public class Blog {
     @JsonDeserialize(using = ObjectIdDeserializer.class)
     private ObjectId id;
 
-    @NotNull(groups = InsertBlogGroup.class)
+    @NotNull(groups = {InsertBlogGroup.class, UpdateBlogGroup.class})
     @Length(min = 2, max = 10, groups = {InsertBlogGroup.class, UpdateBlogGroup.class})
     private String category;
 
-    @NotNull(groups = InsertBlogGroup.class)
+    @NotNull(groups = {InsertBlogGroup.class, UpdateBlogGroup.class})
     @Length(min = 4, max = 10, groups = {InsertBlogGroup.class, UpdateBlogGroup.class})
     private String author;
 
-    @NotNull(groups = InsertBlogGroup.class)
+    @NotNull(groups = {InsertBlogGroup.class, UpdateBlogGroup.class})
     @Length(min = 5, max = 60, groups = {InsertBlogGroup.class, UpdateBlogGroup.class})
     private String title;
 
-    @NotNull(groups = InsertBlogGroup.class)
+    @NotNull(groups = {InsertBlogGroup.class, UpdateBlogGroup.class})
     @Length(min = 140, groups = {InsertBlogGroup.class, UpdateBlogGroup.class})
     private String content;
 
