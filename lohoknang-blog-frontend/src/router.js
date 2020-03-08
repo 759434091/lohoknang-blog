@@ -33,6 +33,11 @@ export default new Router({
       component: () => import("./views/MarkedEditor.vue")
     },
     {
+      path: "/authenticate",
+      name: "authenticate",
+      component: () => import("./views/Authentication.vue")
+    },
+    {
       path: "*",
       name: "NotFound",
       component: () => import("./views/NotFound")

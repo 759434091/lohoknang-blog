@@ -34,7 +34,7 @@
           ></span
         >
       </div>
-      <div v-html="blogDetail.content" v-highlight></div>
+      <div v-html="marked" v-highlight></div>
       <div class="blog-intro-content-footer">
         <el-row type="flex" justify="end" :class="buttonClass">
           <el-button
@@ -74,6 +74,7 @@ export default {
   data() {
     return {
       blogDetail: null,
+      marked: "",
       buttonClass: "",
       bar: {
         show: false,
@@ -89,7 +90,7 @@ export default {
         .get(`/blogs/${this.blog.id}`)
         .then(res => {
           this.blogDetail = res.data;
-          this.blogDetail.content = marked(this.blogDetail.content);
+          this.marked = marked(this.blogDetail.content);
         })
         .catch(err => {
           this.$message.error(err);

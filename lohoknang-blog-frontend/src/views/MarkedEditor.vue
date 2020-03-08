@@ -11,23 +11,26 @@
             :inline="true"
           >
             <el-form-item label="ID">
-              <el-input v-model="form.id" :disabled="true"></el-input
-            ></el-form-item>
+              <el-input v-model="form.id" :disabled="true"></el-input>
+            </el-form-item>
             <el-form-item label="标题" prop="title">
-              <el-input v-model="form.title" placeholder="请输入标题"></el-input
-            ></el-form-item>
+              <el-input
+                v-model="form.title"
+                placeholder="请输入标题"
+              ></el-input>
+            </el-form-item>
             <el-form-item label="分类" title="category" prop="category">
               <el-input
                 v-model="form.category"
                 placeholder="请输入分类"
-              ></el-input
-            ></el-form-item>
+              ></el-input>
+            </el-form-item>
             <el-form-item label="作者" prop="author">
               <el-input
                 v-model="form.author"
                 placeholder="请输入作者"
-              ></el-input
-            ></el-form-item>
+              ></el-input>
+            </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submit">提交</el-button>
               <el-button type="info" @click="clearId">清除ID</el-button>
@@ -197,21 +200,25 @@ export default {
           return;
         }
 
+        const _this = this;
         this.$refs.contentForm.validate(valid => {
           if (!valid) {
             return;
           }
 
           const blog = {
-            title: this.form.title,
-            category: this.form.category,
-            author: this.form.author,
-            content: this.form.content
+            title: _this.form.title,
+            category: _this.form.category,
+            author: _this.form.author,
+            content: _this.form.content
           };
 
+          debugger;
           this.$http
             .post("/blogs", blog, {
-              Authorization: this.auth
+              headers: {
+                Authorization: _this.auth
+              }
             })
             .then(res => {
               this.$message.success(`发布成功 ${res.data}`);
@@ -229,22 +236,25 @@ export default {
           return;
         }
 
+        const _this = this;
         this.$refs.contentForm.validate(valid => {
           if (!valid) {
             return;
           }
 
           const blog = {
-            id: this.form.id,
-            title: this.form.title,
-            category: this.form.category,
-            author: this.form.author,
-            content: this.form.content
+            id: _this.form.id,
+            title: _this.form.title,
+            category: _this.form.category,
+            author: _this.form.author,
+            content: _this.form.content
           };
 
-          this.$http
+          _this.$http
             .put(`/blogs/${blog.id}`, blog, {
-              Authorization: this.auth
+              headers: {
+                Authorization: _this.auth
+              }
             })
             .then(res => {
               this.$message.success(`修改成功 ${res.data}`);
