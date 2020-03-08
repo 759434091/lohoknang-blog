@@ -25,10 +25,6 @@ if status != 0:
 
 print("Start deploying")
 
-sshClient = paramiko.SSHClient()
-sshClient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-sshClient.connect(hostname, port=port, username=username, password=password)
-
 # noinspection PyTypeChecker
 transport = paramiko.Transport((hostname, port))
 transport.connect(username=username, password=password)
@@ -38,21 +34,26 @@ print("successfully get the ssh&sftp session")
 
 
 def gratefully_shutdown():
-    if sshClient:
-        sshClient.close()
     if sftpClient:
         sftpClient.close()
 
 
 def exec_command(cmd):
+    ssh_client = paramiko.SSHClient()
+    ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh_client.connect(hostname, port=port, username=username, password=password)
     print("command: " + cmd)
-    (stdin, stdout, stderr) = sshClient.exec_command(cmd)
+    (stdin, stdout, stderr) = ssh_client.exec_command(cmd)
     err = stderr.read().decode("utf-8")
     if err:
         print("catch err: " + err)
+        if ssh_client:
+            ssh_client.close()
         gratefully_shutdown()
         exit(1)
     print("cmd result: " + stdout.read().decode("utf-8"))
+    if ssh_client:
+        ssh_client.close()
 
 
 cleaningScript = r"""
