@@ -8,11 +8,8 @@ import blog.lohoknang.exc.NotFoundException;
 import blog.lohoknang.filter.RobotFilter;
 import blog.lohoknang.filter.SecureFilter;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
@@ -62,16 +59,5 @@ public class WebConfig {
                 .onError(e -> (e instanceof NotFoundException),
                         (e, req) -> ServerResponse.notFound().build())
                 .build();
-    }
-
-    @Bean
-    CorsWebFilter corsFilter() {
-        return new CorsWebFilter(exchange -> {
-            val configuration = new CorsConfiguration();
-            configuration.addAllowedHeader("*");
-            configuration.addAllowedMethod("*");
-            configuration.addAllowedOrigin("*");
-            return configuration;
-        });
     }
 }
