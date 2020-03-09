@@ -32,15 +32,15 @@ def exec_command(cmd):
         ssh_client.close()
 
 
-print("Start deploying")
+print("\n\n--------------------Start deploying--------------------\n\n")
 
 cleaningScript = r"""
 #!/usr/bin/env bash
 
 BLOG_PID=""
 cd {appPath}
-[[ -f blog.pid ]] && BLOG_PID=$(cat blog.pid)
-[[ -n ${{BLOG_PID}} ]] && kill ${{BLOG_PID}}
+$([[ -f blog.pid ]] && BLOG_PID=$(cat blog.pid) || exit 0)
+$([[ -n ${{BLOG_PID}} ]] && kill ${{BLOG_PID}} || exit 0)
 find . -regextype sed -regex "{targetJarRegex}" | xargs rm -f 
 rm -f blog.pid
 """.format(appPath=appPath, targetJarRegex=targetJarRegex)
@@ -50,7 +50,7 @@ cleaningCmd = r"""cd {appPath} \
 && ./clean.sh \
 && rm -f clean.sh""".format(appPath=appPath, cleaningScript=cleaningScript)
 exec_command(cleaningCmd)
-print("Finish cleaning")
+print("\n\n--------------------Finish cleaning--------------------\n\n")
 
 exec_command("cd {0} && ls".format(appPath))
 
@@ -72,7 +72,7 @@ echo "$!" > blog.pid
 startupCmd = "cd {0} && echo '{1}' > startup.sh && chmod +x startup.sh && ./startup.sh && rm -f startup.sh" \
     .format(appPath, startupScript)
 exec_command(startupCmd)
-print("Finish deploying")
+print("\n\n--------------------Finish deploying--------------------\n\n")
 
 print("Good bye. ")
 exit(0)
