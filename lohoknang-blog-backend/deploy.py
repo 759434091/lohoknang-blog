@@ -39,8 +39,13 @@ cleaningScript = r"""
 
 BLOG_PID=""
 cd {appPath}
-$([[ -f blog.pid ]] && BLOG_PID=$(cat blog.pid) || exit 0)
-$([[ -n ${{BLOG_PID}} ]] && kill ${{BLOG_PID}} || exit 0)
+if [[ -f blog.pid ]]; then
+    BLOG_PID=$(cat blog.pid)
+    if [[ -n ${{BLOG_PID}} ]]; then
+        echo "try to kill ${{BLOG_PID}}"
+        kill ${{BLOG_PID}}
+    fi
+fi
 find . -regextype sed -regex "{targetJarRegex}" | xargs rm -f 
 rm -f blog.pid
 """.format(appPath=appPath, targetJarRegex=targetJarRegex)
@@ -57,7 +62,7 @@ exec_command("cd {0} && ls".format(appPath))
 startupScript = r"""
 #!/usr/bin/env bash
 cd {gitPath}
-git pull
+git fetch --all && git reset --hard origin/master && git pull
 cd lohoknang-blog-backend/
 /opt/maven/bin/mvn clean package -DskipTests
 cd target
