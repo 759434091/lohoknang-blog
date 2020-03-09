@@ -1,4 +1,3 @@
-import subprocess
 import json
 import paramiko
 
@@ -10,32 +9,10 @@ hostname = properties["hostname"]
 port = properties["port"]
 username = properties["username"]
 password = properties["password"]
-targetDirPath = properties["targetDirPath"]
 targetJarName = properties["targetJarName"]
 targetJarRegex = properties["targetJarRegex"]
 appPath = properties["appPath"]
-mvnPath = properties["mvnPath"]
-
-print("Start packaging")
-
-(status, output) = subprocess.getstatusoutput("{0} clean package -DskipTests".format(mvnPath))
-print(output)
-if status != 0:
-    exit(1)
-
-print("Start deploying")
-
-# noinspection PyTypeChecker
-transport = paramiko.Transport((hostname, port))
-transport.connect(username=username, password=password)
-sftpClient = paramiko.SFTPClient.from_transport(transport)
-
-print("successfully get the ssh&sftp session")
-
-
-def gratefully_shutdown():
-    if sftpClient:
-        sftpClient.close()
+gitPath = properties["gitPath"]
 
 
 def exec_command(cmd):
@@ -49,52 +26,53 @@ def exec_command(cmd):
         print("catch err: " + err)
         if ssh_client:
             ssh_client.close()
-        gratefully_shutdown()
         exit(1)
     print("cmd result: " + stdout.read().decode("utf-8"))
     if ssh_client:
         ssh_client.close()
 
 
+print("Start deploying")
+
 cleaningScript = r"""
 #!/usr/bin/env bash
 
 BLOG_PID=""
-cd {0}
+cd {appPath}
 [[ -f blog.pid ]] && BLOG_PID=$(cat blog.pid)
 [[ -n ${{BLOG_PID}} ]] && kill ${{BLOG_PID}}
-find . -regextype sed -regex "{1}" | xargs rm -f 
+find . -regextype sed -regex "{targetJarRegex}" | xargs rm -f 
 rm -f blog.pid
-""".format(appPath, targetJarRegex)
-cleaningCmd = r"""cd {0} && echo '{1}' > clean.sh && chmod +x clean.sh && ./clean.sh && rm -f clean.sh""" \
-    .format(appPath, cleaningScript)
+""".format(appPath=appPath, targetJarRegex=targetJarRegex)
+cleaningCmd = r"""cd {appPath} \
+&& echo '{cleaningScript}' > clean.sh \
+&& chmod +x clean.sh \
+&& ./clean.sh \
+&& rm -f clean.sh""".format(appPath=appPath, cleaningScript=cleaningScript)
 exec_command(cleaningCmd)
 print("Finish cleaning")
-
-try:
-    sftpClient.put("{0}/{1}".format(targetDirPath, targetJarName), "{0}/{1}".format(appPath, targetJarName))
-except IOError:
-    gratefully_shutdown()
-    exit(1)
-print("Finish uploading")
 
 exec_command("cd {0} && ls".format(appPath))
 
 startupScript = r"""
 #!/usr/bin/env bash
+cd {gitPath}
+git pull
+cd lohoknang-blog-backend/
+mvn clean package -DskipTests
+cd target
+cp {targetJarName} {appPath}
 
-cd {0}
-OUTPUT="output-$(date +"%Y%m%d%H%M%S").out"
+cd {appPath}
+OUTPUT="output-$(date +"%m%d-%H%M").out"
 java --version
-nohup java -jar {1} > ${{OUTPUT}} 2>&1 &
+nohup java -jar {targetJarName} > ${{OUTPUT}} 2>&1 &
 echo "$!" > blog.pid
-""".format(appPath, targetJarName)
+""".format(gitPath=gitPath, targetJarName=targetJarName, appPath=appPath)
 startupCmd = "cd {0} && echo '{1}' > startup.sh && chmod +x startup.sh && ./startup.sh && rm -f startup.sh" \
     .format(appPath, startupScript)
 exec_command(startupCmd)
 print("Finish deploying")
 
-gratefully_shutdown()
-print("Finish closing session. ")
 print("Good bye. ")
 exit(0)
