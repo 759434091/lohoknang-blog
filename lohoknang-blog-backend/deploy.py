@@ -59,7 +59,7 @@ startupScript = r"""
 cd {gitPath}
 git pull
 cd lohoknang-blog-backend/
-mvn clean package -DskipTests
+/opt/maven/bin/mvn clean package -DskipTests
 cd target
 cp {targetJarName} {appPath}
 
