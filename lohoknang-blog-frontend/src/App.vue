@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="3">
             <div class="app-brand">
-              <a class="app-brand-link" href="/#/">A9043 BLOG</a>
+              <a class="app-brand-link" href="/#/">LOHOKNANG BLOG</a>
             </div>
           </el-col>
           <el-col :span="21">
@@ -17,9 +17,6 @@
             >
               <el-menu-item class="app-menu-item" index="/">
                 <a href="/#/" class="app-menu-link">POST</a>
-              </el-menu-item>
-              <el-menu-item class="app-menu-item" index="/contact">
-                <a href="/#/contact" class="app-menu-link">CONTACT</a>
               </el-menu-item>
               <el-menu-item class="app-menu-item" index="/about">
                 <a href="/#/about" class="app-menu-link">ABOUT</a>

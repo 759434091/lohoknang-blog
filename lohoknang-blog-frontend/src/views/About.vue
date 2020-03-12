@@ -10,7 +10,7 @@
             <el-form class="intro-form" size="medium" label-position="left">
               <el-form-item label="BLOG">
                 <el-link href="https://lohoknang.com">
-                  LOHOKNANG.BLOG
+                  LOHOKNANG.BLOG/LOHOKNANG.COM
                 </el-link>
               </el-form-item>
               <el-form-item label="GITHUB">
@@ -20,7 +20,7 @@
               </el-form-item>
               <el-form-item label="MAIL">
                 <el-link href="mailto:zzz13129180808@Gmail.com"
-                  >zzz13129180808@Gmail.com
+                  >blog@lohoknang.com
                 </el-link>
               </el-form-item>
             </el-form>

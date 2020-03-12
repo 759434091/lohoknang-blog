@@ -35,7 +35,6 @@ public class WebConfig {
     @Resource
     private SecureFilter secureFilter;
 
-    @SuppressWarnings("SpellCheckingInspection")
     @Bean
     RouterFunction<ServerResponse> routerFunction() {
         return RouterFunctions.route()
