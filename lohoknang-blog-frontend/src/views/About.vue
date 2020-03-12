@@ -10,12 +10,12 @@
             <el-form class="intro-form" size="medium" label-position="left">
               <el-form-item label="BLOG">
                 <el-link href="https://lohoknang.com">
-                  LOHOKNANG.BLOG/LOHOKNANG.COM
+                  LOHOKNANG.COM
                 </el-link>
               </el-form-item>
               <el-form-item label="GITHUB">
                 <el-link href="https://github.com/759434091"
-                  >HokNang_Loue
+                  >HOKNANG_LO
                 </el-link>
               </el-form-item>
               <el-form-item label="MAIL">

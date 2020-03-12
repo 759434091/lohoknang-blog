@@ -3,12 +3,12 @@
     <el-container class="app-container">
       <el-header class="app-header">
         <el-row>
-          <el-col :span="3">
+          <el-col :span="4">
             <div class="app-brand">
               <a class="app-brand-link" href="/#/">LOHOKNANG BLOG</a>
             </div>
           </el-col>
-          <el-col :span="21">
+          <el-col :span="20">
             <el-menu
               :router="true"
               :default-active="activeIndex"
