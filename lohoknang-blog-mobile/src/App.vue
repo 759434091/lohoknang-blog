@@ -3,7 +3,6 @@
         <mu-container class="main-container">
             <mu-tabs :value.sync="active" indicator-color="primary" inverse center>
                 <mu-tab to="/blogs">BLOG</mu-tab>
-                <mu-tab to="/contact">CONTACT</mu-tab>
                 <mu-tab to="/about">ABOUT</mu-tab>
             </mu-tabs>
             <mu-fade-transition :duration="{ enter: 800, leave: 0 }">

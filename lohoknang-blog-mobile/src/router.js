@@ -25,10 +25,6 @@ export default new Router({
             component: () => import('./views/BlogContent.vue'),
             props: true
         }, {
-            path: '/contact',
-            name: 'contactPage',
-            component: () => import('./views/ContactPage.vue')
-        }, {
             path: '/about',
             name: 'aboutPage',
             component: () => import('./views/AboutPage.vue')
