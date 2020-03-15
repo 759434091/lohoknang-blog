@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author <a href="luxueneng@baidu.com">luxueneng</a>
@@ -18,6 +19,8 @@ import javax.annotation.Resource;
 public class RobotControlHandler {
     @Resource
     private BlogService blogService;
+
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE;
 
     @SuppressWarnings("unused")
     public Mono<ServerResponse> getIndex(ServerRequest serverRequest) {
@@ -52,7 +55,7 @@ public class RobotControlHandler {
                 .getRobotBlog()
                 .map(b -> String.format(SITE_CONTENT,
                         b.getId(),
-                        b.getUpdatedAt()))
+                        dateTimeFormatter.format(b.getUpdatedAt())))
                 .reduce((l, r) -> l + r)
                 .map(str -> String.format(SITE_MAP, str))
                 .flatMap(str -> ServerResponse.ok().contentType(MediaType.TEXT_XML).syncBody(str));
