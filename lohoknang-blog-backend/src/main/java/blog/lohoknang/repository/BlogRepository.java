@@ -1,15 +1,14 @@
 package blog.lohoknang.repository;
 
-import java.time.LocalDateTime;
-
+import blog.lohoknang.entity.Blog;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
-
-import blog.lohoknang.entity.Blog;
 import reactor.core.publisher.Flux;
+
+import java.time.LocalDateTime;
 
 /**
  * @author <a href="luxueneng@baidu.com">luxueneng</a>
@@ -33,7 +32,7 @@ public interface BlogRepository extends ReactiveMongoRepository<Blog, ObjectId> 
      *
      * @return flux
      */
-    @Query(fields = "{ id : 1, title : 1, intro: 1}")
+    @Query(fields = "{ id : 1, title : 1, intro: 1, updatedAt : 1}")
     Flux<Blog> findByOrderByCreatedAt();
 
     /**
