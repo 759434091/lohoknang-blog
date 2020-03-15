@@ -5,12 +5,12 @@ import blog.lohoknang.controller.CommentCorsControlHandler;
 import blog.lohoknang.controller.RobotControlHandler;
 import blog.lohoknang.exc.InvalidParameterException;
 import blog.lohoknang.exc.NotFoundException;
-import blog.lohoknang.filter.RobotFilter;
 import blog.lohoknang.filter.SecureFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -31,27 +31,23 @@ public class WebConfig {
     @Resource
     private RobotControlHandler robotControlHandler;
     @Resource
-    private RobotFilter robotFilter;
-    @Resource
     private SecureFilter secureFilter;
 
     @Bean
     RouterFunction<ServerResponse> routerFunction() {
-        return RouterFunctions.route()
-                .PUT("/blogs/{id}", blogControlHandler::updateBlog)
-                .GET("/blogs/{id}", blogControlHandler::getBlog)
-                .POST("/blogs", blogControlHandler::insertBlog)
-                .GET("/blogs", blogControlHandler::getBlogIntro)
+        return RouterFunctions
+                .route()
+                .nest(RequestPredicates.path("/blogs"), builder -> builder
+                        .PUT("/{id}", blogControlHandler::updateBlog)
+                        .GET("/{id}", blogControlHandler::getBlog)
+                        .POST("", blogControlHandler::insertBlog)
+                        .GET("", blogControlHandler::getBlogIntro))
                 .GET("/categories", blogControlHandler::getTopCategories)
                 .GET("/dates", blogControlHandler::getTopDates)
                 .GET("/updateds", blogControlHandler::getTopUpdateds)
-                .POST("/comment-cors", commentCorsControlHandler::commentCors)
-                .GET("/rb", robotControlHandler::getIndex)
-                .GET("/rb/blogs/{id}", robotControlHandler::getBlog)
-                .GET("/sitemap.xml", robotControlHandler::getSiteMap)
-                .GET("/gsitemap.xml", robotControlHandler::getGSiteMap)
                 .POST("/authenticate", (severRequest) -> ServerResponse.accepted().build())
-                .filter(robotFilter)
+                .POST("/comment-cors", commentCorsControlHandler::commentCors)
+                .GET("/sitemap.xml", robotControlHandler::getSiteMap)
                 .filter(secureFilter)
                 .onError(e -> (e instanceof InvalidParameterException),
                         (e, req) -> ServerResponse.badRequest().body(BodyInserters.fromObject(e.getMessage())))
